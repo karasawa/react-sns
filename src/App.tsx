@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./service/firebase";
+import Home from "./components/pages/Home";
+import Auth from "./components/pages/Auth";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RecoilRoot>
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route path="/" element={<Auth />} />
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </Router>
+      </div>
+    </RecoilRoot>
   );
 }
-
 export default App;
