@@ -1,5 +1,5 @@
 import { memo } from "react";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import { getCookie } from "typescript-cookie";
 import {
   ListItem,
@@ -10,6 +10,8 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import Paper from "@mui/material/Paper";
 import DeleteFriendButton from "../atoms/DeleteFriendButton";
+import { useSetRecoilState } from "recoil";
+import { chatWithFriendState } from "../../recoil/atom";
 
 interface Props {
   friend: string[];
@@ -18,6 +20,7 @@ interface Props {
 
 const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
   const currentUser = getCookie("currentUser");
+  const setChatWithFriend = useSetRecoilState(chatWithFriendState);
 
   return (
     <ul
@@ -29,13 +32,21 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
       }}
     >
       {friend.map((data: string, index: number) => (
-        <Paper elevation={1} sx={{ textAlign: "left", p: 0.5, m: 1 }}>
-          <ListItem key={index}>
+        <Paper
+          key={index}
+          elevation={1}
+          sx={{ textAlign: "left", p: 0.5, m: 1 }}
+        >
+          <ListItem>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
             <ListItemText>
-              <Link href="/chat" underline="none">
+              <Link
+                to="/chat"
+                onClick={() => setChatWithFriend(data)}
+                style={{ textDecoration: "none", color: "#000" }}
+              >
                 {data}
               </Link>
             </ListItemText>

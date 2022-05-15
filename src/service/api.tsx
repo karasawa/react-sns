@@ -14,6 +14,13 @@ export const initGet = async (currentUser?: string) => {
   });
 };
 
+export const chatGet = async (currentUser?: string, friend?: string) => {
+  const chat = await db.collection("chat").doc(currentUser);
+  return chat.get().then((snapShot) => {
+    return snapShot;
+  });
+};
+
 // export const addTodo = (content, uid) => {
 //     db.collection("todo").add({
 //         content: content,
@@ -27,7 +34,7 @@ export const deletefriend = (currentUser?: string, friend?: string) => {
   db.collection("user")
     .doc(currentUser)
     .update({
-      friend: firebase.firestore.FieldValue.arrayRemove(friend), // usersフィールド（配列）から要素'user1'を削除
+      friend: firebase.firestore.FieldValue.arrayRemove(friend),
     });
 };
 
