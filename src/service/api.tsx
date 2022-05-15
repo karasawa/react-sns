@@ -1,24 +1,18 @@
 import firebase from "firebase";
 import { db } from "./firebase";
 
-// export const initGet = async (uid) => {
-//   const todo = await db
-//     .collection("todo")
-//     .orderBy("createdAt", "desc")
-//     .where("uid", "==", uid);
-
-//   return todo.get().then((snapShot) => {
-//     let todos = [];
-//     snapShot.forEach((doc) => {
-//       todos.push({
-//         id: doc.id,
-//         content: doc.data().content,
-//         isComplete: doc.data().isComplete,
-//       });
-//     });
-//     return todos;
-//   });
-// };
+export const initGet = async (currentUser?: string) => {
+  const friend = await db.collection("user").where("name", "==", currentUser);
+  return friend.get().then((snapShot) => {
+    let friends: any[] = [];
+    snapShot.forEach((doc) => {
+      friends.push({
+        friend: doc.data().friend,
+      });
+    });
+    return friends;
+  });
+};
 
 // export const addTodo = (content, uid) => {
 //     db.collection("todo").add({
@@ -29,9 +23,13 @@ import { db } from "./firebase";
 //     })
 // }
 
-// export const deleteTodo = (id) => {
-//     db.collection("todo").doc(id).delete();
-// }
+export const deletefriend = (currentUser?: string, friend?: string) => {
+  db.collection("user")
+    .doc(currentUser)
+    .update({
+      friend: firebase.firestore.FieldValue.arrayRemove(friend), // usersフィールド（配列）から要素'user1'を削除
+    });
+};
 
 // export const toggleComplete = async(id) => {
 //     const todo = await db.collection("todo").doc(id).get();

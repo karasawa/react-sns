@@ -11,8 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import AuthButton from "../atoms/AuthButton";
 import AuthToggleButton from "../atoms/AuthToggleButton";
 import AuthFormField from "../molecules/AuthFormField";
-import { currentUserState } from "../../recoil/atom";
-import { useRecoilState } from "recoil";
+import { setCookie } from "typescript-cookie";
 
 const schema = yup.object().shape({
   email: yup
@@ -23,7 +22,6 @@ const schema = yup.object().shape({
 });
 
 const Auth = memo(() => {
-  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,8 +41,7 @@ const Auth = memo(() => {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(async (userCredential) => {
-          await console.log(userCredential.user);
-          await setCurrentUser(email);
+          await setCookie("currentUser", email);
           await setEmail("");
           await setPassword("");
           navigate("/home");
@@ -54,9 +51,9 @@ const Auth = memo(() => {
         });
     } else {
       await createUser(email, password);
-      setIsLogin(true);
       await setEmail("");
       await setPassword("");
+      setIsLogin(true);
     }
   };
 
