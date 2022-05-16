@@ -25,7 +25,6 @@ const Home = memo(() => {
   const fetch = async () => {
     const friends = await initGet(currentUser);
     await setFriend(friends[0].friend);
-    console.log(friend);
   };
 
   return (

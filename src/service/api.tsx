@@ -33,7 +33,6 @@ export const chatGet = async (currentUser?: string, friend?: string) => {
         send_time: doc.data().send_time,
       });
     });
-    // return chats;
   });
   return fromChat.get().then((snapShot) => {
     snapShot.forEach((doc) => {
@@ -44,6 +43,7 @@ export const chatGet = async (currentUser?: string, friend?: string) => {
         send_time: doc.data().send_time,
       });
     });
+    // chats = chats.sort();
     return chats;
   });
 };

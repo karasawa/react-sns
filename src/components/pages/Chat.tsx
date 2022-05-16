@@ -21,14 +21,10 @@ const Chat = memo(() => {
   const chatFetch = async () => {
     const chats = await chatGet(currentUser, chatWithFriend);
     await setChat(chats);
-    console.log(chat);
   };
   return (
     <Box>
       <Header />
-      {/* {chat.map((chatData: ChatData, index: number) => (
-        <li key={index}>{chatData.message}</li>
-      ))} */}
       <ChatList chat={chat} />
       <Footer />
     </Box>

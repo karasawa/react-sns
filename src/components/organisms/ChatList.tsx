@@ -1,12 +1,8 @@
 import { memo } from "react";
-import {
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-} from "@mui/material";
+import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import Paper from "@mui/material/Paper";
+import { getCookie } from "typescript-cookie";
 
 interface Props {
   chat: any;
@@ -20,6 +16,8 @@ interface ChatData {
 }
 
 const ChatList: React.VFC<Props> = memo(({ chat }) => {
+  const currentUser = getCookie("currentUser");
+
   return (
     <ul
       style={{
@@ -29,30 +27,48 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
         padding: 0,
       }}
     >
-      {chat.map((chatData: ChatData, index: number) => (
-        <Paper
-          key={index}
-          elevation={1}
-          sx={{ textAlign: "left", p: 0.5, m: 1 }}
-        >
-          <ListItem>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText>
-              {chatData.message}
-              {/* <Link
-              to="/chat"
-              onClick={() => setChatWithFriend(data)}
-              style={{ textDecoration: "none", color: "#000" }}
+      {chat.map((chatData: ChatData, index: number) => {
+        if (chatData.from === currentUser) {
+          return (
+            <Paper
+              key={index}
+              elevation={1}
+              sx={{
+                textAlign: "left",
+                p: 0.5,
+                m: 0.5,
+                background: "#32a86b",
+                color: "#fff",
+              }}
             >
-              {data}
-            </Link> */}
-            </ListItemText>
-            <ListItemSecondaryAction></ListItemSecondaryAction>
-          </ListItem>
-        </Paper>
-      ))}
+              <ListItem>
+                <ListItemIcon></ListItemIcon>
+                <ListItemText sx={{ textAlign: "right" }}>
+                  {chatData.message}
+                </ListItemText>
+                <ListItemIcon sx={{ justifyContent: "right" }}>
+                  <PersonIcon sx={{ color: "#fff" }} />
+                </ListItemIcon>
+              </ListItem>
+            </Paper>
+          );
+        } else {
+          return (
+            <Paper
+              key={index}
+              elevation={1}
+              sx={{ textAlign: "left", p: 0.5, m: 0.5 }}
+            >
+              <ListItem>
+                <ListItemIcon>
+                  <PersonIcon />
+                </ListItemIcon>
+                <ListItemText>{chatData.message}</ListItemText>
+              </ListItem>
+            </Paper>
+          );
+        }
+      })}
     </ul>
   );
 });
