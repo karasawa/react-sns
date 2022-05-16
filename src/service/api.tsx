@@ -15,9 +15,36 @@ export const initGet = async (currentUser?: string) => {
 };
 
 export const chatGet = async (currentUser?: string, friend?: string) => {
-  const chat = await db.collection("chat").doc(currentUser);
-  return chat.get().then((snapShot) => {
-    return snapShot;
+  const toChat = await db
+    .collection("chat")
+    .where("from", "==", currentUser)
+    .where("to", "==", friend);
+  const fromChat = await db
+    .collection("chat")
+    .where("from", "==", friend)
+    .where("to", "==", currentUser);
+  let chats: any[] = [];
+  toChat.get().then((snapShot) => {
+    snapShot.forEach((doc) => {
+      chats.push({
+        from: doc.data().from,
+        to: doc.data().to,
+        message: doc.data().message,
+        send_time: doc.data().send_time,
+      });
+    });
+    // return chats;
+  });
+  return fromChat.get().then((snapShot) => {
+    snapShot.forEach((doc) => {
+      chats.push({
+        from: doc.data().from,
+        to: doc.data().to,
+        message: doc.data().message,
+        send_time: doc.data().send_time,
+      });
+    });
+    return chats;
   });
 };
 
@@ -30,7 +57,7 @@ export const chatGet = async (currentUser?: string, friend?: string) => {
 //     })
 // }
 
-export const deletefriend = (currentUser?: string, friend?: string) => {
+export const deleteFriend = (currentUser?: string, friend?: string) => {
   db.collection("user")
     .doc(currentUser)
     .update({

@@ -20,11 +20,12 @@ const Home = memo(() => {
 
   useEffect(() => {
     fetch();
-  }, []);
+  }, [currentUser]);
 
   const fetch = async () => {
     const friends = await initGet(currentUser);
-    setFriend(friends[0].friend);
+    await setFriend(friends[0].friend);
+    console.log(friend);
   };
 
   return (

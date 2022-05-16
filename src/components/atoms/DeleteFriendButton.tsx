@@ -1,7 +1,7 @@
 import { memo } from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { IconButton } from "@mui/material";
-import { deletefriend } from "../../service/api";
+import { deleteFriend } from "../../service/api";
 
 interface Props {
   currentUser: string | undefined;
@@ -12,8 +12,8 @@ interface Props {
 const DeleteFriendButton: React.VFC<Props> = memo(
   ({ currentUser, fetch, data }) => {
     const deleteHandle = async (friend: string) => {
-      await deletefriend(currentUser, friend);
-      fetch();
+      await deleteFriend(currentUser, friend);
+      await fetch();
     };
 
     return (
