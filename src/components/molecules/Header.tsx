@@ -10,6 +10,8 @@ import { getCookie, removeCookie } from "typescript-cookie";
 const Header = memo(() => {
   const navigate = useNavigate();
 
+  const drawerWidth = 240;
+
   const logoutHandle = async () => {
     await logOut();
     await removeCookie("currentUser");
@@ -17,7 +19,14 @@ const Header = memo(() => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="fixed"
+      sx={{
+        width: { sm: `calc(100% - ${drawerWidth}px)` },
+        ml: { sm: `${drawerWidth}px` },
+        background: "#000",
+      }}
+    >
       <Toolbar
         sx={{
           display: "flex",

@@ -90,7 +90,7 @@ const Auth = memo(() => {
           </Box>
         </Box>
       </form>
-      <Footer />
+      {/* <Footer /> */}
     </Box>
   );
 });

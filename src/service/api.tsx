@@ -48,14 +48,18 @@ export const chatGet = async (currentUser?: string, friend?: string) => {
   });
 };
 
-// export const addTodo = (content, uid) => {
-//     db.collection("todo").add({
-//         content: content,
-//         uid: uid,
-//         isComplete: false,
-//         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-//     })
-// }
+export const sendMessage = (
+  currentUser?: string,
+  friend?: string,
+  message?: string
+) => {
+  db.collection("chat").add({
+    to: friend,
+    from: currentUser,
+    message: message,
+    send_time: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+};
 
 export const deleteFriend = (currentUser?: string, friend?: string) => {
   db.collection("user")
