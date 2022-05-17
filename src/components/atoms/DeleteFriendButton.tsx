@@ -11,17 +11,13 @@ interface Props {
 
 const DeleteFriendButton: React.VFC<Props> = memo(
   ({ currentUser, fetch, data }) => {
-    const deleteHandle = async (friend: string) => {
-      await deleteFriend(currentUser, friend);
-      await fetch();
+    const deleteHandle = async () => {
+      await deleteFriend(currentUser, data);
+      fetch();
     };
 
     return (
-      <IconButton
-        edge="end"
-        aria-label="delete"
-        onClick={() => deleteHandle(data)}
-      >
+      <IconButton edge="end" aria-label="delete" onClick={deleteHandle}>
         <DeleteForeverIcon />
       </IconButton>
     );
