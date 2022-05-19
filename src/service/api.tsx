@@ -1,9 +1,25 @@
 import firebase from "firebase";
+import { currentUserState } from "../recoil/atom";
 import { db } from "./firebase";
 
+export const getCurrentUserName = async (email: string) => {
+  const user = await db.collection("user").where("email", "==", email);
+  return user.get().then((snapShot) => {
+    let users: any[] = [];
+    snapShot.forEach((doc) => {
+      users.push({
+        email: doc.data().email,
+        name: doc.data().name,
+      });
+    });
+    return users;
+  });
+};
+
 export const initGet = async (currentUser?: string) => {
-  const friend = await db.collection("user").where("name", "==", currentUser);
+  const friend = await db.collection("user").where("email", "==", currentUser);
   return friend.get().then((snapShot) => {
+    console.log(snapShot);
     let friends: any[] = [];
     snapShot.forEach((doc) => {
       friends.push({
@@ -43,7 +59,9 @@ export const chatGet = async (currentUser?: string, friend?: string) => {
         send_time: doc.data().send_time,
       });
     });
-    // chats = chats.sort();
+    chats.sort(function (a, b) {
+      return a > b ? 1 : -1;
+    });
     return chats;
   });
 };

@@ -16,13 +16,13 @@ const SideMenu = memo(() => {
 
   const sideMenuContents = [
     {
-      text: "Animelとは",
+      text: "React SNSとは",
       path: "/introduction",
       icon: <InfoIcon />,
     },
     {
       text: "トップページ",
-      path: "/",
+      path: "/home",
       icon: <HomeIcon />,
     },
     {

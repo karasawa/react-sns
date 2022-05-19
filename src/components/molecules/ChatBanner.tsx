@@ -9,8 +9,6 @@ import BackButton from "../atoms/BackButton";
 const ChatBanner = memo(() => {
   const chatWithFriend = useRecoilValue(chatWithFriendState);
 
-  const drawerWidth = 240;
-
   return (
     <AppBar position="static" sx={{ background: "#4f4c54" }}>
       <Toolbar
@@ -18,12 +16,11 @@ const ChatBanner = memo(() => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          // minHeight: 50,
         }}
       >
         <BackButton />
         <Typography variant="subtitle2" component="div">
-          {chatWithFriend}
+          {chatWithFriend.chatWithFriendName}
         </Typography>
       </Toolbar>
     </AppBar>

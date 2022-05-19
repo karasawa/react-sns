@@ -1,11 +1,27 @@
 import { atom } from "recoil";
 
-export const currentUserState = atom<string>({
+interface CurrentUser {
+  currentUserEmail: string;
+  currentUserName: string;
+}
+
+export const currentUserState = atom<CurrentUser>({
   key: "currentUserState",
-  default: "",
+  default: {
+    currentUserEmail: "",
+    currentUserName: "",
+  },
 });
 
-export const chatWithFriendState = atom<string>({
+interface ChatWithFriend {
+  chatWithFriendEmail: string;
+  chatWithFriendName: string;
+}
+
+export const chatWithFriendState = atom<ChatWithFriend>({
   key: "chatWithFriendState",
-  default: "",
+  default: {
+    chatWithFriendEmail: "",
+    chatWithFriendName: "",
+  },
 });

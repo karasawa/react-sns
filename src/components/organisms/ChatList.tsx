@@ -2,7 +2,8 @@ import { memo } from "react";
 import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import Paper from "@mui/material/Paper";
-import { getCookie } from "typescript-cookie";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "../../recoil/atom";
 
 interface Props {
   chat: any;
@@ -16,8 +17,7 @@ interface ChatData {
 }
 
 const ChatList: React.VFC<Props> = memo(({ chat }) => {
-  const currentUser = getCookie("currentUser");
-
+  const currentUser = useRecoilValue(currentUserState);
   return (
     <ul
       style={{
@@ -28,7 +28,7 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
       }}
     >
       {chat.map((chatData: ChatData, index: number) => {
-        if (chatData.from === currentUser) {
+        if (chatData.from === currentUser.currentUserEmail) {
           return (
             <Paper
               key={index}

@@ -11,7 +11,10 @@ const BackButton = memo(() => {
 
   const backHandle = () => {
     navigate("/home");
-    setChatWithFriend("");
+    setChatWithFriend({
+      chatWithFriendEmail: "",
+      chatWithFriendName: "",
+    });
   };
 
   return (

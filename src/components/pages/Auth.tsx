@@ -11,7 +11,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import AuthButton from "../atoms/AuthButton";
 import AuthToggleButton from "../atoms/AuthToggleButton";
 import AuthFormField from "../molecules/AuthFormField";
-import { setCookie } from "typescript-cookie";
+import { useSetRecoilState } from "recoil";
+import { currentUserState } from "../../recoil/atom";
+import { getCurrentUserName } from "../../service/api";
 
 const schema = yup.object().shape({
   email: yup
@@ -25,6 +27,7 @@ const Auth = memo(() => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const setCurrentUser = useSetRecoilState(currentUserState);
   const navigate = useNavigate();
 
   const {
@@ -41,7 +44,11 @@ const Auth = memo(() => {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(async (userCredential) => {
-          await setCookie("currentUser", email);
+          const user = await getCurrentUserName(email);
+          await setCurrentUser({
+            currentUserEmail: user[0].email,
+            currentUserName: user[0].name,
+          });
           await setEmail("");
           await setPassword("");
           navigate("/home");
@@ -63,7 +70,7 @@ const Auth = memo(() => {
       <form onSubmit={handleSubmit(authHandle)}>
         <Box
           sx={{
-            height: 600,
+            height: 720,
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
@@ -90,7 +97,7 @@ const Auth = memo(() => {
           </Box>
         </Box>
       </form>
-      {/* <Footer /> */}
+      <Footer />
     </Box>
   );
 });

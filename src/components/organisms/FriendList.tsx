@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
-import { getCookie } from "typescript-cookie";
 import {
   ListItem,
   ListItemIcon,
@@ -10,16 +9,21 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import Paper from "@mui/material/Paper";
 import DeleteFriendButton from "../atoms/DeleteFriendButton";
-import { useSetRecoilState } from "recoil";
-import { chatWithFriendState } from "../../recoil/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { currentUserState, chatWithFriendState } from "../../recoil/atom";
 
 interface Props {
-  friend: string[];
+  friend: any[];
   fetch: () => void;
 }
 
+interface FriendData {
+  friend_email: string;
+  friend_name: string;
+}
+
 const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
-  const currentUser = getCookie("currentUser");
+  const currentUser = useRecoilValue(currentUserState);
   const setChatWithFriend = useSetRecoilState(chatWithFriendState);
 
   return (
@@ -31,7 +35,7 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
         padding: 0,
       }}
     >
-      {friend.map((data: string, index: number) => (
+      {friend.map((friendData: FriendData, index: number) => (
         <Paper
           key={index}
           elevation={1}
@@ -44,17 +48,22 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
             <ListItemText>
               <Link
                 to="/chat"
-                onClick={() => setChatWithFriend(data)}
+                onClick={() =>
+                  setChatWithFriend({
+                    chatWithFriendEmail: friendData.friend_email,
+                    chatWithFriendName: friendData.friend_name,
+                  })
+                }
                 style={{ textDecoration: "none", color: "#000" }}
               >
-                {data}
+                {friendData.friend_name}
               </Link>
             </ListItemText>
             <ListItemSecondaryAction>
               <DeleteFriendButton
-                currentUser={currentUser}
+                currentUser={currentUser.currentUserEmail}
                 fetch={fetch}
-                data={data}
+                friend={friendData.friend_email}
               />
             </ListItemSecondaryAction>
           </ListItem>
