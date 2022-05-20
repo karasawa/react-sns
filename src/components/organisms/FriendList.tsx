@@ -63,7 +63,7 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
               <DeleteFriendButton
                 currentUser={currentUser.currentUserEmail}
                 fetch={fetch}
-                friend={friendData.friend_email}
+                friend={friendData}
               />
             </ListItemSecondaryAction>
           </ListItem>

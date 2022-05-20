@@ -1,12 +1,12 @@
 import { memo, useState, useEffect } from "react";
-import Header from "../molecules/Header";
+import Header from "../organisms/Header";
 import InputMessageBanner from "../molecules/InputMessageBanner";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
-import { chatGet } from "../../service/api";
+import { chatGet, updateChatPageLogin } from "../../service/api";
 import ChatList from "../organisms/ChatList";
 import ChatBanner from "../molecules/ChatBanner";
 import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
@@ -32,6 +32,10 @@ const Chat = memo(() => {
       chatWithFriend.chatWithFriendEmail
     );
     await setChat(chats);
+    // const user = await updateChatPageLogin(
+    //   currentUser.currentUserEmail,
+    //   chatWithFriend.chatWithFriendEmail
+    // );
   };
   return (
     <Box sx={{ display: "flex" }}>
@@ -47,7 +51,7 @@ const Chat = memo(() => {
         }}
       >
         <Toolbar />
-        <ChatBanner />
+        {/* <ChatBanner /> */}
         <ChatList chat={chat} />
         <InputMessageBanner chatFetch={chatFetch} />
       </Box>

@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import { currentUserState } from "../recoil/atom";
 import { db } from "./firebase";
 
 export const getCurrentUserName = async (email: string) => {
@@ -19,7 +18,6 @@ export const getCurrentUserName = async (email: string) => {
 export const initGet = async (currentUser?: string) => {
   const friend = await db.collection("user").where("email", "==", currentUser);
   return friend.get().then((snapShot) => {
-    console.log(snapShot);
     let friends: any[] = [];
     snapShot.forEach((doc) => {
       friends.push({
@@ -79,17 +77,45 @@ export const sendMessage = (
   });
 };
 
-export const deleteFriend = (currentUser?: string, friend?: string) => {
+interface Friend {
+  friend_email: string;
+  friend_name: string;
+}
+
+export const deleteFriend = async (currentUser?: string, friend?: Friend) => {
+  const target = await db.collection("user").where("email", "==", currentUser);
+  return target.get().then((snapShot) => {
+    let dataArr: any[] = [];
+    snapShot.forEach((element) => {
+      dataArr.push({
+        friend: element.data().friend,
+      });
+    });
+    dataArr = dataArr[0].friend.filter(
+      (data: any) => friend?.friend_email === data.friend_email
+    );
+    db.collection("user")
+      .doc(currentUser)
+      .update({
+        friend: firebase.firestore.FieldValue.arrayRemove({
+          friend_email: friend?.friend_email,
+          friend_name: friend?.friend_name,
+          chat_page_login: dataArr[0].chat_page_login,
+        }),
+      });
+  });
+};
+
+export const updateChatPageLogin = async (
+  currentUser?: string,
+  friend?: string
+) => {
+  const user = await db.collection("user").doc(currentUser).get();
   db.collection("user")
     .doc(currentUser)
     .update({
-      friend: firebase.firestore.FieldValue.arrayRemove(friend),
+      friend: firebase.firestore.FieldValue.arrayUnion({
+        chat_page_login: firebase.firestore.FieldValue.serverTimestamp(),
+      }),
     });
 };
-
-// export const toggleComplete = async(id) => {
-//     const todo = await db.collection("todo").doc(id).get();
-//     return db.collection("todo").doc(id).update({
-//         isComplete: todo.data().isComplete ? false : true,
-//     });
-// }

@@ -6,14 +6,17 @@ import { deleteFriend } from "../../service/api";
 interface Props {
   currentUser: string | undefined;
   fetch: () => void;
-  friend: string;
+  friend: {
+    friend_email: string;
+    friend_name: string;
+  };
 }
 
 const DeleteFriendButton: React.VFC<Props> = memo(
   ({ currentUser, fetch, friend }) => {
     const deleteHandle = async () => {
-      await deleteFriend(currentUser, friend);
-      fetch();
+      const data = await deleteFriend(currentUser, friend);
+      await fetch();
     };
 
     return (

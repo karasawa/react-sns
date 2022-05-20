@@ -1,20 +1,18 @@
 import { memo, useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import TextField from "@mui/material/TextField";
 import { sendMessage } from "../../service/api";
 import { useRecoilValue } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
+import SendMessageButton from "../atoms/SendMessageButton";
 
 interface Props {
   chatFetch: () => void;
 }
 
 const InputMessageBanner: React.VFC<Props> = memo(({ chatFetch }) => {
-  const drawerWidth = 240;
-
   const [message, setMessage] = useState<string>("");
 
   const currentUser = useRecoilValue(currentUserState);
@@ -45,7 +43,6 @@ const InputMessageBanner: React.VFC<Props> = memo(({ chatFetch }) => {
       <AppBar
         position="fixed"
         sx={{
-          // width: { sm: `calc(100% - ${drawerWidth}px)` },
           height: 65,
           ml: 0,
           background: "#000",
@@ -74,9 +71,7 @@ const InputMessageBanner: React.VFC<Props> = memo(({ chatFetch }) => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <Button sx={{ color: "#fff" }} onClick={sendHandle}>
-            送信
-          </Button>
+          <SendMessageButton sendHandle={sendHandle} />
         </Toolbar>
       </AppBar>
     </Box>

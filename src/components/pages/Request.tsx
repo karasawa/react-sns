@@ -12,7 +12,7 @@ import { currentUserState } from "../../recoil/atom";
 import RightHomeDrawer from "../organisms/RightHomeDrawer";
 import Footer from "../organisms/Footer";
 
-const Home = memo(() => {
+const Request = memo(() => {
   const [friend, setFriend] = useState<any[]>([]);
   const currentUser = useRecoilValue(currentUserState);
   const navigate = useNavigate();
@@ -55,4 +55,4 @@ const Home = memo(() => {
     </Box>
   );
 });
-export default Home;
+export default Request;
