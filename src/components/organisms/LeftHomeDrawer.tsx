@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import SideMenu from "../molecules/SideMenu";
+import LeftSideMenu from "../molecules/LeftSideMenu";
 
 const drawerWidth = 240;
 
@@ -9,14 +9,14 @@ interface Props {
   window?: () => Window;
 }
 
-const HomeDrawer: React.VFC<Props> = memo((props) => {
+const LeftHomeDrawer: React.VFC<Props> = memo((props) => {
   const { window } = props;
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const drawer = (
     <div>
-      <SideMenu />
+      <LeftSideMenu />
     </div>
   );
 
@@ -64,4 +64,4 @@ const HomeDrawer: React.VFC<Props> = memo((props) => {
     </Box>
   );
 });
-export default HomeDrawer;
+export default LeftHomeDrawer;

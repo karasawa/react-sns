@@ -9,7 +9,8 @@ import { currentUserState, chatWithFriendState } from "../../recoil/atom";
 import { chatGet } from "../../service/api";
 import ChatList from "../organisms/ChatList";
 import ChatBanner from "../molecules/ChatBanner";
-import HomeDrawer from "../organisms/HomeDrawer";
+import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
+import RightHomeDrawer from "../organisms/RightHomeDrawer";
 
 const Chat = memo(() => {
   const currentUser = useRecoilValue(currentUserState);
@@ -36,7 +37,7 @@ const Chat = memo(() => {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <Header />
-      <HomeDrawer />
+      <LeftHomeDrawer />
       <Box
         component="main"
         sx={{
@@ -50,6 +51,7 @@ const Chat = memo(() => {
         <ChatList chat={chat} />
         <InputMessageBanner chatFetch={chatFetch} />
       </Box>
+      <RightHomeDrawer />
     </Box>
   );
 });

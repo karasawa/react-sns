@@ -14,6 +14,7 @@ const Footer = memo(() => {
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
       <AppBar position="static" sx={{ background: "#000" }}>

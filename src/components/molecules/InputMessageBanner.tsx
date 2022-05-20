@@ -39,12 +39,13 @@ const InputMessageBanner: React.VFC<Props> = memo(({ chatFetch }) => {
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          // width: { sm: `calc(100% - ${drawerWidth}px)` },
           height: 65,
           ml: 0,
           background: "#000",

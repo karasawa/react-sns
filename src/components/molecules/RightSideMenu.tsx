@@ -11,7 +11,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import Divider from "@mui/material/Divider";
 
-const SideMenu = memo(() => {
+const RightSideMenu = memo(() => {
   const navigate = useNavigate();
 
   const sideMenuContents = [
@@ -50,4 +50,4 @@ const SideMenu = memo(() => {
     </Box>
   );
 });
-export default SideMenu;
+export default RightSideMenu;

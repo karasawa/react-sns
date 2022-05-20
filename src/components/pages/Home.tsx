@@ -6,9 +6,11 @@ import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 import { initGet } from "../../service/api";
 import FriendList from "../organisms/FriendList";
-import HomeDrawer from "../organisms/HomeDrawer";
+import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../recoil/atom";
+import RightHomeDrawer from "../organisms/RightHomeDrawer";
+import Footer from "../molecules/Footer";
 
 const Home = memo(() => {
   const [friend, setFriend] = useState<any[]>([]);
@@ -36,7 +38,7 @@ const Home = memo(() => {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <Header />
-      <HomeDrawer />
+      <LeftHomeDrawer />
       <Box
         component="main"
         sx={{
@@ -48,6 +50,8 @@ const Home = memo(() => {
         <Toolbar />
         <FriendList friend={friend} fetch={fetch} />
       </Box>
+      <Footer />
+      <RightHomeDrawer />
     </Box>
   );
 });
