@@ -1,29 +1,26 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-} from "@mui/material";
+import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import Paper from "@mui/material/Paper";
-import DeleteFriendButton from "../atoms/DeleteFriendButton";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
+import FriendRequestDialog from "../molecules/FriendRequestDialog";
 
 interface Props {
   friend: any[];
 }
 
-// interface FriendData {
-//   friend_email: string;
-//   friend_name: string;
-// }
-
 const UserList: React.VFC<Props> = memo(({ friend }) => {
   const currentUser = useRecoilValue(currentUserState);
   const setChatWithFriend = useSetRecoilState(chatWithFriendState);
+  const [open, setOpen] = useState(false);
+  const [requestFriend, setRequestFriend] = useState("");
+
+  const friendRequestHandle = (requestFriend: any) => {
+    setRequestFriend(requestFriend);
+    setOpen(true);
+  };
 
   return (
     <ul
@@ -47,7 +44,7 @@ const UserList: React.VFC<Props> = memo(({ friend }) => {
             <ListItemText>
               <Link
                 to="/request"
-                onClick={() => console.log("aa")}
+                onClick={() => friendRequestHandle(friendData.friend)}
                 style={{ textDecoration: "none", color: "#000" }}
               >
                 {friendData.friend.email}
@@ -56,6 +53,11 @@ const UserList: React.VFC<Props> = memo(({ friend }) => {
           </ListItem>
         </Paper>
       ))}
+      <FriendRequestDialog
+        open={open}
+        setOpen={setOpen}
+        requestFriend={requestFriend}
+      />
     </ul>
   );
 });

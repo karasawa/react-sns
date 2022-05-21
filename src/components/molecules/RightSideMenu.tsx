@@ -22,18 +22,18 @@ const RightSideMenu = memo(() => {
 
   const sideMenuContents = [
     {
-      text: "友達申請",
-      path: "/request",
-      icon: <GroupAddIcon />,
-    },
-    {
       text: "トップページ",
       path: "/home",
       icon: <HomeIcon />,
     },
     {
-      text: "設定",
-      path: "/setting",
+      text: "友達申請",
+      path: "/request",
+      icon: <GroupAddIcon />,
+    },
+    {
+      text: "アカウント設定",
+      path: "/account",
       icon: <SettingsIcon />,
     },
   ];
@@ -41,10 +41,23 @@ const RightSideMenu = memo(() => {
     <Box>
       <Toolbar />
       <Divider />
-      <List>
-        <ListItem>
-          <ListItemIcon>
-            <Avatar sx={{ bgcolor: deepOrange[500], width: 30, height: 30 }}>
+      <List sx={{ padding: 0, paddingTop: 1 }}>
+        <ListItem
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ListItemIcon sx={{ display: "flex", justifyContent: "center" }}>
+            <Avatar
+              sx={{
+                bgcolor: deepOrange[500],
+                width: 30,
+                height: 30,
+              }}
+            >
               K
             </Avatar>
           </ListItemIcon>

@@ -77,6 +77,34 @@ export const friendSearch = async (searchResult?: string) => {
   });
 };
 
+export const addFriend = async (
+  currentUserEmail?: string,
+  currentUserName?: string,
+  friendEmail?: string,
+  friendName?: string
+) => {
+  await db
+    .collection("user")
+    .doc(currentUserEmail)
+    .update({
+      friend: firebase.firestore.FieldValue.arrayUnion({
+        friend_email: friendEmail,
+        friend_name: friendName,
+        chat_page_login: null,
+      }),
+    });
+  await db
+    .collection("user")
+    .doc(friendEmail)
+    .update({
+      friend: firebase.firestore.FieldValue.arrayUnion({
+        friend_email: currentUserEmail,
+        friend_name: currentUserName,
+        chat_page_login: null,
+      }),
+    });
+};
+
 export const sendMessage = (
   currentUser?: string,
   friend?: string,

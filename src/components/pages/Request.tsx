@@ -3,17 +3,15 @@ import Header from "../organisms/Header";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
-import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
-import { friendSearch, initGet } from "../../service/api";
+import { friendSearch } from "../../service/api";
 import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../recoil/atom";
 import RightHomeDrawer from "../organisms/RightHomeDrawer";
 import Footer from "../molecules/Footer";
-import SearchIcon from "@mui/icons-material/Search";
-import { IconButton } from "@mui/material";
 import UserList from "../organisms/UserList";
+import SearchUserField from "../molecules/SearchUserField";
 
 const Request = memo(() => {
   const [friend, setFriend] = useState<any[]>([]);
@@ -32,8 +30,6 @@ const Request = memo(() => {
   const userFetch = async () => {
     const friends = await friendSearch(searchResult);
     await setFriend(friends);
-    console.log(friend);
-    console.log(searchResult);
   };
 
   return (
@@ -50,33 +46,11 @@ const Request = memo(() => {
         }}
       >
         <Toolbar />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TextField
-            id="outlined-basic"
-            size="small"
-            placeholder="メールアドレスで友達を検索"
-            sx={{ width: 280 }}
-            value={searchResult}
-            onChange={(e) => setSearchResult(e.target.value)}
-          />
-          <IconButton
-            edge="end"
-            aria-label="search"
-            sx={{
-              m: 1,
-              color: "#000",
-            }}
-            onClick={userFetch}
-          >
-            <SearchIcon />
-          </IconButton>
-        </Box>
+        <SearchUserField
+          searchResult={searchResult}
+          setSearchResult={setSearchResult}
+          userFetch={userFetch}
+        />
         <UserList friend={friend} />
       </Box>
       <Footer />
