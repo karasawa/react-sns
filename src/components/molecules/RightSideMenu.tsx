@@ -14,6 +14,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import Divider from "@mui/material/Divider";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../recoil/atom";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 const RightSideMenu = memo(() => {
   const currentUser = useRecoilValue(currentUserState);
@@ -21,9 +22,9 @@ const RightSideMenu = memo(() => {
 
   const sideMenuContents = [
     {
-      text: "React SNSとは",
-      path: "/introduction",
-      icon: <InfoIcon />,
+      text: "友達申請",
+      path: "/request",
+      icon: <GroupAddIcon />,
     },
     {
       text: "トップページ",
@@ -41,7 +42,7 @@ const RightSideMenu = memo(() => {
       <Toolbar />
       <Divider />
       <List>
-        <ListItem button>
+        <ListItem>
           <ListItemIcon>
             <Avatar sx={{ bgcolor: deepOrange[500], width: 30, height: 30 }}>
               K

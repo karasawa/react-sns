@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { logOut } from "../../service/firebase";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
 import BackButton from "../atoms/BackButton";
@@ -42,9 +42,16 @@ const Header = memo(() => {
           >
             {location.pathname === "/chat" ? <BackButton /> : <></>}
             <Typography variant="h6">
-              {location.pathname === "/chat"
-                ? `${chatWithFriend.chatWithFriendName}`
-                : "React SNS"}
+              {location.pathname === "/chat" ? (
+                `${chatWithFriend.chatWithFriendName}`
+              ) : (
+                <Link
+                  to="/home"
+                  style={{ color: "#fff", textDecoration: "none" }}
+                >
+                  React SNS
+                </Link>
+              )}
             </Typography>
             <Button sx={{ color: "#fff" }} onClick={logoutHandle}>
               ログアウト

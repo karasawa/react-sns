@@ -11,9 +11,11 @@ import ChatList from "../organisms/ChatList";
 import ChatBanner from "../molecules/ChatBanner";
 import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
 import RightHomeDrawer from "../organisms/RightHomeDrawer";
+import { useNavigate } from "react-router-dom";
 
 const Chat = memo(() => {
   const currentUser = useRecoilValue(currentUserState);
+  const navigate = useNavigate();
 
   const [chatWithFriend, setChatWithFriend] =
     useRecoilState(chatWithFriendState);
@@ -21,6 +23,12 @@ const Chat = memo(() => {
   const [chat, setChat] = useState<any>([]);
 
   const drawerWidth = 240;
+
+  useEffect(() => {
+    if (!currentUser.currentUserEmail) {
+      navigate("/");
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     chatFetch();

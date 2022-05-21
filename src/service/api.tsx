@@ -31,12 +31,12 @@ export const initGet = async (currentUser?: string) => {
 export const chatGet = async (currentUser?: string, friend?: string) => {
   const toChat = await db
     .collection("chat")
-    .where("from", "==", currentUser)
-    .where("to", "==", friend);
-  const fromChat = await db
-    .collection("chat")
     .where("from", "==", friend)
     .where("to", "==", currentUser);
+  const fromChat = await db
+    .collection("chat")
+    .where("from", "==", currentUser)
+    .where("to", "==", friend);
   let chats: any[] = [];
   toChat.get().then((snapShot) => {
     snapShot.forEach((doc) => {
@@ -58,9 +58,22 @@ export const chatGet = async (currentUser?: string, friend?: string) => {
       });
     });
     chats.sort(function (a, b) {
-      return a > b ? 1 : -1;
+      return a.send_time > b.send_time ? 1 : -1;
     });
     return chats;
+  });
+};
+
+export const friendSearch = async (searchResult?: string) => {
+  const friend = await db.collection("user").where("email", "==", searchResult);
+  return friend.get().then((snapShot) => {
+    let friends: any[] = [];
+    snapShot.forEach((doc) => {
+      friends.push({
+        friend: doc.data(),
+      });
+    });
+    return friends;
   });
 };
 
