@@ -10,7 +10,7 @@ import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../recoil/atom";
 import RightHomeDrawer from "../organisms/RightHomeDrawer";
-import Footer from "../molecules/Footer";
+import Footer from "../organisms/Footer";
 
 const Home = memo(() => {
   const [friend, setFriend] = useState<any[]>([]);

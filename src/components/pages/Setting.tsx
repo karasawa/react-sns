@@ -8,7 +8,7 @@ import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
 import { useRecoilState } from "recoil";
 import { currentUserState } from "../../recoil/atom";
 import RightHomeDrawer from "../organisms/RightHomeDrawer";
-import Footer from "../molecules/Footer";
+import Footer from "../organisms/Footer";
 import { updateAccountInfo } from "../../service/api";
 import AccountSettingField from "../molecules/AccountSettingField";
 

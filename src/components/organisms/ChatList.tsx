@@ -21,6 +21,7 @@ interface ChatData {
 const ChatList: React.VFC<Props> = memo(({ chat }) => {
   const currentUser = useRecoilValue(currentUserState);
   const chatWithFriend = useRecoilValue(chatWithFriendState);
+  console.log(chat);
   return (
     <Box
       style={{
@@ -46,7 +47,6 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
               }}
             >
               <ListItem sx={{ padding: 0.8 }}>
-                <ListItemIcon></ListItemIcon>
                 <ListItemText sx={{ textAlign: "right" }}>
                   {chatData.message}
                 </ListItemText>

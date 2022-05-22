@@ -20,7 +20,7 @@ const Chat = memo(() => {
   const [chatWithFriend, setChatWithFriend] =
     useRecoilState(chatWithFriendState);
 
-  const [chat, setChat] = useState<any>([]);
+  const [chat, setChat] = useState<any[]>([]);
 
   const drawerWidth = 240;
 

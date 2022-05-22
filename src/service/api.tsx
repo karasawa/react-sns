@@ -57,11 +57,26 @@ export const chatGet = async (currentUser?: string, friend?: string) => {
         send_time: doc.data().send_time,
       });
     });
-    chats.sort(function (a, b) {
-      return a.send_time > b.send_time ? 1 : -1;
-    });
+    chats.sort((a, b) => compare(a.send_time, b.send_time, false));
     return chats;
   });
+};
+
+var compare = (a: any, b: any, desc = true) => {
+  if (a !== a && b !== b) return 0;
+  if (a !== a) return 1;
+  if (b !== b) return -1;
+
+  if (a == null && b == null) return 0;
+  if (a == null) return 1;
+  if (b == null) return -1;
+
+  if (a === "" && b === "") return 0;
+  if (a === "") return 1;
+  if (b === "") return -1;
+
+  var sig = desc ? 1 : -1;
+  return a < b ? sig : a > b ? -sig : 0;
 };
 
 export const friendSearch = async (searchResult?: string) => {
@@ -111,10 +126,10 @@ export const sendMessage = (
   message?: string
 ) => {
   db.collection("chat").add({
+    send_time: firebase.firestore.FieldValue.serverTimestamp(),
     to: friend,
     from: currentUser,
     message: message,
-    send_time: firebase.firestore.FieldValue.serverTimestamp(),
   });
 };
 

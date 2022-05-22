@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
 import Box from "@mui/material/Box";
 import Header from "../organisms/Header";
-import Footer from "../molecules/Footer";
+import Footer from "../organisms/Footer";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../../service/firebase";
 import firebase from "firebase/app";
