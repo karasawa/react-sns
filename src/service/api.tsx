@@ -147,6 +147,19 @@ export const deleteFriend = async (currentUser?: string, friend?: Friend) => {
   });
 };
 
+export const updateAccountInfo = (
+  currentUserEmail?: string,
+  currentUserName?: string
+) => {
+  return db
+    .collection("user")
+    .doc(currentUserEmail)
+    .update({ name: currentUserName })
+    .then(() => {
+      return currentUserName;
+    });
+};
+
 export const updateChatPageLogin = async (
   currentUser?: string,
   friend?: string

@@ -3,8 +3,9 @@ import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { useRecoilValue } from "recoil";
-import { currentUserState } from "../../recoil/atom";
+import { currentUserState, chatWithFriendState } from "../../recoil/atom";
 
 interface Props {
   chat: any;
@@ -19,6 +20,7 @@ interface ChatData {
 
 const ChatList: React.VFC<Props> = memo(({ chat }) => {
   const currentUser = useRecoilValue(currentUserState);
+  const chatWithFriend = useRecoilValue(chatWithFriendState);
   return (
     <Box
       style={{
@@ -37,20 +39,33 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
               sx={{
                 justifyContent: "right",
                 textAlign: "right",
-                p: 0.5,
                 m: 0.5,
                 marginLeft: 10,
                 background: "#32a86b",
                 color: "#fff",
               }}
             >
-              <ListItem>
+              <ListItem sx={{ padding: 0.8 }}>
                 <ListItemIcon></ListItemIcon>
                 <ListItemText sx={{ textAlign: "right" }}>
                   {chatData.message}
                 </ListItemText>
-                <ListItemIcon sx={{ justifyContent: "right" }}>
+                <ListItemIcon
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "right",
+                    alignItems: "center",
+                    paddingLeft: 1,
+                  }}
+                >
                   <PersonIcon sx={{ color: "#fff" }} />
+                  <Typography
+                    id="modal-modal-title"
+                    sx={{ color: "#fff", fontSize: 10 }}
+                  >
+                    {currentUser.currentUserName}
+                  </Typography>
                 </ListItemIcon>
               </ListItem>
             </Paper>
@@ -60,11 +75,25 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
             <Paper
               key={index}
               elevation={1}
-              sx={{ textAlign: "left", p: 0.5, m: 0.5, marginRight: 10 }}
+              sx={{ textAlign: "left", m: 0.5, marginRight: 10 }}
             >
-              <ListItem>
-                <ListItemIcon>
+              <ListItem sx={{ padding: 0.8 }}>
+                <ListItemIcon
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingRight: 1,
+                  }}
+                >
                   <PersonIcon />
+                  <Typography
+                    id="modal-modal-title"
+                    sx={{ color: "#000", fontSize: 10 }}
+                  >
+                    {chatWithFriend.chatWithFriendName}
+                  </Typography>
                 </ListItemIcon>
                 <ListItemText>{chatData.message}</ListItemText>
               </ListItem>

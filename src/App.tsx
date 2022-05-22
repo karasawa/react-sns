@@ -3,6 +3,7 @@ import Home from "./components/pages/Home";
 import Auth from "./components/pages/Auth";
 import Chat from "./components/pages/Chat";
 import Request from "./components/pages/Request";
+import Setting from "./components/pages/Setting";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
@@ -16,6 +17,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/request" element={<Request />} />
+            <Route path="/setting" element={<Setting />} />
           </Routes>
         </Router>
       </div>
