@@ -16,6 +16,7 @@ export const currentUserState = atom<CurrentUser>({
 interface ChatWithFriend {
   chatWithFriendEmail: string;
   chatWithFriendName: string;
+  exist_flag: boolean;
 }
 
 export const chatWithFriendState = atom<ChatWithFriend>({
@@ -23,5 +24,6 @@ export const chatWithFriendState = atom<ChatWithFriend>({
   default: {
     chatWithFriendEmail: "",
     chatWithFriendName: "",
+    exist_flag: true,
   },
 });

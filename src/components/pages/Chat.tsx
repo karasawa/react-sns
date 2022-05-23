@@ -8,7 +8,6 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
 import { chatGet, updateChatPageLogin } from "../../service/api";
 import ChatList from "../organisms/ChatList";
-import ChatBanner from "../molecules/ChatBanner";
 import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
 import RightHomeDrawer from "../organisms/RightHomeDrawer";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +58,6 @@ const Chat = memo(() => {
         }}
       >
         <Toolbar />
-        {/* <ChatBanner /> */}
         <ChatList chat={chat} />
         <InputMessageBanner chatFetch={chatFetch} />
       </Box>

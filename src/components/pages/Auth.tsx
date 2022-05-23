@@ -13,7 +13,7 @@ import AuthToggleButton from "../atoms/AuthToggleButton";
 import AuthFormField from "../molecules/AuthFormField";
 import { useSetRecoilState } from "recoil";
 import { currentUserState } from "../../recoil/atom";
-import { getCurrentUserName } from "../../service/api";
+import { createUserInfo, getCurrentUserName } from "../../service/api";
 
 const schema = yup.object().shape({
   email: yup
@@ -21,12 +21,14 @@ const schema = yup.object().shape({
     .email("メールアドレスの形式が正しくありません")
     .required("必須項目です"),
   password: yup.string().min(8, "8文字以上で入力してください"),
+  username: yup.string(),
 });
 
 const Auth = memo(() => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const setCurrentUser = useSetRecoilState(currentUserState);
   const navigate = useNavigate();
 
@@ -58,8 +60,10 @@ const Auth = memo(() => {
         });
     } else {
       await createUser(email, password);
+      await createUserInfo(email, username);
       await setEmail("");
       await setPassword("");
+      await setUsername("");
       setIsLogin(true);
     }
   };
@@ -84,6 +88,9 @@ const Auth = memo(() => {
             setEmail={setEmail}
             password={password}
             setPassword={setPassword}
+            username={username}
+            setUsername={setUsername}
+            isLogin={isLogin}
           />
           <Box
             sx={{

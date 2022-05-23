@@ -1,6 +1,21 @@
 import firebase from "firebase";
 import { db } from "./firebase";
 
+export const createUserInfo = async (email: string, username: string) => {
+  db.collection("user")
+    .doc(email)
+    .set({
+      email: email,
+      name: username,
+    })
+    .then(() => {
+      console.log("create success");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const getCurrentUserName = async (email: string) => {
   const user = await db.collection("user").where("email", "==", email);
   return user.get().then((snapShot) => {
@@ -15,7 +30,10 @@ export const getCurrentUserName = async (email: string) => {
   });
 };
 
-export const initGet = async (currentUser?: string) => {
+export const initGet = async (currentUser: string | undefined) => {
+  if (currentUser === undefined) {
+    return [];
+  }
   const friend = await db.collection("user").where("email", "==", currentUser);
   return friend.get().then((snapShot) => {
     let friends: any[] = [];
@@ -106,6 +124,7 @@ export const addFriend = async (
         friend_email: friendEmail,
         friend_name: friendName,
         chat_page_login: null,
+        exist_flag: true,
       }),
     });
   await db
@@ -116,6 +135,7 @@ export const addFriend = async (
         friend_email: currentUserEmail,
         friend_name: currentUserName,
         chat_page_login: null,
+        exist_flag: true,
       }),
     });
 };
@@ -157,6 +177,7 @@ export const deleteFriend = async (currentUser?: string, friend?: Friend) => {
           friend_email: friend?.friend_email,
           friend_name: friend?.friend_name,
           chat_page_login: dataArr[0].chat_page_login,
+          exist_flag: dataArr[0].exist_flag,
         }),
       });
   });

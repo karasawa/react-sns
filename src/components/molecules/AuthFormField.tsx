@@ -8,10 +8,23 @@ interface Props {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
+  username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  isLogin: boolean;
 }
 
 const AuthFormField: React.VFC<Props> = memo(
-  ({ register, errors, email, setEmail, password, setPassword }) => {
+  ({
+    register,
+    errors,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    username,
+    setUsername,
+    isLogin,
+  }) => {
     return (
       <>
         <TextField
@@ -37,6 +50,21 @@ const AuthFormField: React.VFC<Props> = memo(
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {isLogin ? (
+          <></>
+        ) : (
+          <TextField
+            id="username"
+            label="username"
+            variant="outlined"
+            sx={{ width: 260, m: 0.5 }}
+            {...register("username")}
+            error={"username" in errors}
+            helperText={errors.username?.message}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        )}
       </>
     );
   }

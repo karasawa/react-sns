@@ -31,7 +31,9 @@ const Home = memo(() => {
 
   const fetch = async () => {
     const friends = await initGet(currentUser.currentUserEmail);
-    await setFriend(friends[0].friend);
+    if (friends) {
+      await setFriend(friends[0].friend);
+    }
   };
 
   return (

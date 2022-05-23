@@ -13,13 +13,15 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
 
 interface Props {
-  friend: any[];
+  friend: any[] | undefined;
   fetch: () => void;
 }
 
 interface FriendData {
   friend_email: string;
   friend_name: string;
+  chat_page_login: EpochTimeStamp;
+  exist_flag: boolean;
 }
 
 const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
@@ -35,40 +37,47 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
         padding: 0,
       }}
     >
-      {friend.map((friendData: FriendData, index: number) => (
-        <Paper
-          key={index}
-          elevation={1}
-          sx={{ textAlign: "left", p: 0.5, m: 1 }}
-        >
-          <ListItem>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <Link
-                to="/chat"
-                onClick={() =>
-                  setChatWithFriend({
-                    chatWithFriendEmail: friendData.friend_email,
-                    chatWithFriendName: friendData.friend_name,
-                  })
-                }
-                style={{ textDecoration: "none", color: "#000" }}
-              >
-                {friendData.friend_name}
-              </Link>
-            </ListItemText>
-            <ListItemSecondaryAction>
-              <DeleteFriendButton
-                currentUser={currentUser.currentUserEmail}
-                fetch={fetch}
-                friend={friendData}
-              />
-            </ListItemSecondaryAction>
-          </ListItem>
-        </Paper>
-      ))}
+      {friend === undefined ? (
+        <></>
+      ) : (
+        <>
+          {friend.map((friendData: FriendData, index: number) => (
+            <Paper
+              key={index}
+              elevation={1}
+              sx={{ textAlign: "left", p: 0.5, m: 1 }}
+            >
+              <ListItem>
+                <ListItemIcon>
+                  <PersonIcon />
+                </ListItemIcon>
+                <ListItemText>
+                  <Link
+                    to="/chat"
+                    onClick={() =>
+                      setChatWithFriend({
+                        chatWithFriendEmail: friendData.friend_email,
+                        chatWithFriendName: friendData.friend_name,
+                        exist_flag: friendData.exist_flag,
+                      })
+                    }
+                    style={{ textDecoration: "none", color: "#000" }}
+                  >
+                    {friendData.friend_name}
+                  </Link>
+                </ListItemText>
+                <ListItemSecondaryAction>
+                  <DeleteFriendButton
+                    currentUser={currentUser.currentUserEmail}
+                    fetch={fetch}
+                    friend={friendData}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+            </Paper>
+          ))}
+        </>
+      )}
     </ul>
   );
 });
