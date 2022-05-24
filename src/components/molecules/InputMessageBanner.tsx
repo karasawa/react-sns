@@ -68,7 +68,8 @@ const InputMessageBanner: React.VFC<Props> = memo(({ chatFetch }) => {
               borderRadius: 1,
               width: "60%",
             }}
-            value={message}
+            value={chatWithFriend.exist_flag ? message : "トーク相手がいません"}
+            disabled={chatWithFriend.exist_flag ? false : true}
             onChange={(e) => setMessage(e.target.value)}
           />
           <SendMessageButton sendHandle={sendHandle} />
