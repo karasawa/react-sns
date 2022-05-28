@@ -31,7 +31,6 @@ const Header = memo(() => {
           position="fixed"
           sx={{
             zIndex: (theme) => theme.zIndex.drawer + 1,
-            background: "#000",
           }}
         >
           <Toolbar
@@ -41,32 +40,44 @@ const Header = memo(() => {
             }}
           >
             {location.pathname === "/chat" ? <BackButton /> : <></>}
-            <Typography variant="h6">
+            <Typography variant="h6" sx={{ color: "#fff" }}>
               {location.pathname === "/chat" ? (
                 `${chatWithFriend.chatWithFriendName}`
               ) : (
                 <Link
                   to="/home"
-                  style={{ color: "#fff", textDecoration: "none" }}
+                  style={{
+                    textDecoration: "none",
+                    color: "#fff",
+                    fontWeight: "bold",
+                  }}
                 >
-                  React SNS
+                  ゆるちゃ
                 </Link>
               )}
             </Typography>
-            <Button sx={{ color: "#fff" }} onClick={logoutHandle}>
+            <Button sx={{ color: "#fff", fontSize: 16 }} onClick={logoutHandle}>
               ログアウト
             </Button>
           </Toolbar>
         </AppBar>
       ) : (
-        <AppBar position="fixed" sx={{ background: "#000" }}>
+        <AppBar position="fixed">
           <Toolbar
             sx={{
               display: "flex",
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="h6">React SNS</Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+              }}
+            >
+              ゆるちゃ
+            </Typography>
           </Toolbar>
         </AppBar>
       )}

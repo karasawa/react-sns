@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import DeleteFriendButton from "../atoms/DeleteFriendButton";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
+import useMedia from "use-media";
 
 interface Props {
   friend: any[] | undefined;
@@ -27,6 +28,7 @@ interface FriendData {
 const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
   const currentUser = useRecoilValue(currentUserState);
   const setChatWithFriend = useSetRecoilState(chatWithFriendState);
+  const isWide = useMedia({ minWidth: "1000px" });
 
   return (
     <ul
@@ -34,6 +36,8 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
         listStyle: "none",
         display: "flex",
         flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         padding: 0,
       }}
     >
@@ -45,11 +49,11 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
             <Paper
               key={index}
               elevation={1}
-              sx={{ textAlign: "left", p: 0.5, m: 1 }}
+              sx={{ textAlign: "left", width: 500, p: 0.5, m: 1 }}
             >
               <ListItem>
                 <ListItemIcon>
-                  <PersonIcon />
+                  <PersonIcon sx={{ color: "#4a453a" }} />
                 </ListItemIcon>
                 <ListItemText>
                   <Link
@@ -61,7 +65,7 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
                         exist_flag: friendData.exist_flag,
                       })
                     }
-                    style={{ textDecoration: "none", color: "#000" }}
+                    style={{ textDecoration: "none", color: "#4a453a" }}
                   >
                     {friendData.friend_name}
                   </Link>

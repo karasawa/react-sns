@@ -13,7 +13,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import Divider from "@mui/material/Divider";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../recoil/atom";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 const RightSideMenu = memo(() => {
   const currentUser = useRecoilValue(currentUserState);
@@ -23,7 +23,7 @@ const RightSideMenu = memo(() => {
     {
       text: "友達申請",
       path: "/request",
-      icon: <GroupAddIcon />,
+      icon: <PersonAddIcon />,
     },
     {
       text: "トップページ",
@@ -38,7 +38,7 @@ const RightSideMenu = memo(() => {
     },
   ];
   return (
-    <Box>
+    <Box sx={{ background: "#000", height: "100vh" }}>
       <Toolbar />
       <Divider />
       <List sx={{ padding: 0, paddingTop: 1 }}>
@@ -72,8 +72,10 @@ const RightSideMenu = memo(() => {
             key={content.text}
             onClick={() => navigate(content.path)}
           >
-            <ListItemIcon>{content.icon}</ListItemIcon>
-            <ListItemText primary={content.text} />
+            <ListItemIcon sx={{ color: "#4a453a" }}>
+              {content.icon}
+            </ListItemIcon>
+            <ListItemText primary={content.text} sx={{ color: "#4a453a" }} />
           </ListItem>
         ))}
       </List>

@@ -8,7 +8,10 @@ interface Props {
 
 const AuthToggleButton: React.VFC<Props> = memo(({ isLogin, setIsLogin }) => {
   return (
-    <Button onClick={() => setIsLogin(!isLogin)} sx={{ p: 0.5 }}>
+    <Button
+      onClick={() => setIsLogin(!isLogin)}
+      sx={{ p: 0.5, color: "#4a453a", fontSize: 16 }}
+    >
       {isLogin ? "新規登録はこちら" : "ログイン画面へ戻る"}
     </Button>
   );

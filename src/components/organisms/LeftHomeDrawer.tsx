@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import LeftSideMenu from "../molecules/LeftSideMenu";
 
-const drawerWidth = 240;
+const drawerWidth = 320;
 
 interface Props {
   window?: () => Window;

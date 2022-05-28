@@ -39,31 +39,46 @@ const AccountSettingField: React.VFC<Props> = memo(
           id="modal-modal-title"
           variant="subtitle1"
           component="div"
-          sx={{ color: "#000", textAlign: "center", margin: 0 }}
+          sx={{
+            color: "#4a453a",
+            textAlign: "center",
+            margin: 0,
+            fontSize: 18,
+          }}
         >
           メールアドレス
         </Typography>
         <TextField
           disabled
           id="outlined-basic"
-          size="small"
+          // size="small"
           placeholder="メールアドレス"
-          sx={{ width: 280 }}
+          sx={{
+            width: 350,
+            background: "#fff",
+            borderRadius: 1,
+          }}
           value={currentUser.currentUserEmail}
         />
         <Typography
           id="modal-modal-title"
           variant="subtitle1"
           component="div"
-          sx={{ color: "#000", textAlign: "center", margin: 0, marginTop: 2 }}
+          sx={{
+            color: "#4a453a",
+            textAlign: "center",
+            margin: 0,
+            marginTop: 2,
+            fontSize: 18,
+          }}
         >
           ニックネーム
         </Typography>
         <TextField
           id="outlined-basic"
-          size="small"
+          // size="small"
           placeholder="ニックネーム"
-          sx={{ width: 280 }}
+          sx={{ width: 350, background: "#fff", borderRadius: 1 }}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

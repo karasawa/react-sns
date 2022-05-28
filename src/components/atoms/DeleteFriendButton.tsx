@@ -21,7 +21,7 @@ const DeleteFriendButton: React.VFC<Props> = memo(
 
     return (
       <IconButton edge="end" aria-label="delete" onClick={deleteHandle}>
-        <DeleteForeverIcon />
+        <DeleteForeverIcon sx={{ color: "#4a453a" }} />
       </IconButton>
     );
   }

@@ -27,6 +27,7 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
         listStyle: "none",
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
         padding: 0,
       }}
     >
@@ -44,8 +45,9 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                     justifyContent: "right",
                     textAlign: "right",
                     m: 0.5,
-                    marginLeft: 10,
-                    background: "#32a86b",
+                    marginLeft: 20,
+                    width: 500,
+                    background: "#a2ccff",
                     color: "#fff",
                   }}
                 >
@@ -78,7 +80,12 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                 <Paper
                   key={index}
                   elevation={1}
-                  sx={{ textAlign: "left", m: 0.5, marginRight: 10 }}
+                  sx={{
+                    textAlign: "left",
+                    m: 0.5,
+                    marginRight: 20,
+                    width: 500,
+                  }}
                 >
                   <ListItem sx={{ padding: 0.8 }}>
                     <ListItemIcon
@@ -126,12 +133,14 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
               opacity: 0.5,
               color: "#fff",
               padding: 0.5,
+              width: 600,
             }}
           >
             {chatWithFriend.chatWithFriendName}が退出しました
           </Paper>
         </Box>
       )}
+      <Box sx={{ height: 50 }}></Box>
     </Box>
   );
 });

@@ -7,7 +7,7 @@ import useMedia from "use-media";
 import { Link, useLocation } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 const Footer = memo(() => {
   const isWide = useMedia({ minWidth: "1000px" });
@@ -26,24 +26,38 @@ const Footer = memo(() => {
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <AppBar position="static" sx={{ background: "#000" }}>
+      <AppBar position="static">
         <Toolbar>
           {location.pathname === "/" ? (
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              copyright React SNS
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, color: "#fff" }}
+            >
+              &copy; 2022 - 2023 ゆるちゃ
             </Typography>
           ) : (
             <>
               {isWide ? (
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  copyright React SNS
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ flexGrow: 1, color: "#fff" }}
+                >
+                  &copy; 2022 - 2023 ゆるちゃ
                 </Typography>
               ) : (
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-evenly",
+                      color: "#fff",
+                    }}
+                  >
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
                       <Link to="/request" style={{ color: "#fff" }}>
-                        <GroupAddIcon sx={{ height: "100%" }} />
+                        <PersonAddIcon sx={{ height: "100%" }} />
                       </Link>
                       <Typography variant="subtitle2" component="div">
                         友達申請

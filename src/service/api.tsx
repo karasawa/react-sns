@@ -37,12 +37,30 @@ export const initGet = async (currentUser: string | undefined) => {
   const friend = await db.collection("user").where("email", "==", currentUser);
   return friend.get().then((snapShot) => {
     let friends: any[] = [];
+    let sample: any[] = [];
     snapShot.forEach((doc) => {
+      sample.push({ friend: doc.data().friend });
       friends.push({
         friend: doc.data().friend,
       });
     });
     return friends;
+  });
+};
+
+export const initGets = async (currentUser: string | undefined) => {
+  if (currentUser === undefined) {
+    return [];
+  }
+  const friend = await db.collection("user").where("email", "==", currentUser);
+  return friend.get().then((snapShot) => {
+    let friends: any[] = [];
+    snapShot.forEach((doc) => {
+      friends.push({
+        friend: doc.data().friend,
+      });
+    });
+    return friend;
   });
 };
 
@@ -183,7 +201,7 @@ export const deleteFriend = async (currentUser?: string, friend?: Friend) => {
   });
 };
 
-export const updateAccountInfo = (
+export const updateAccountInfo = async (
   currentUserEmail?: string,
   currentUserName?: string
 ) => {

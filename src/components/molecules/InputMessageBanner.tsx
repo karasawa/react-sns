@@ -45,7 +45,6 @@ const InputMessageBanner: React.VFC<Props> = memo(({ chatFetch }) => {
         sx={{
           height: 65,
           ml: 0,
-          background: "#000",
           top: "auto",
           bottom: 0,
           justifyContent: "center",
@@ -66,7 +65,7 @@ const InputMessageBanner: React.VFC<Props> = memo(({ chatFetch }) => {
             sx={{
               background: "#fff",
               borderRadius: 1,
-              width: "60%",
+              width: "55%",
             }}
             value={chatWithFriend.exist_flag ? message : "トーク相手がいません"}
             disabled={chatWithFriend.exist_flag ? false : true}

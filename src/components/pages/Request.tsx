@@ -54,7 +54,7 @@ const Request = memo(() => {
         <UserList friend={friend} />
       </Box>
       <Footer />
-      <RightHomeDrawer />
+      {/* <RightHomeDrawer /> */}
     </Box>
   );
 });

@@ -43,6 +43,7 @@ const Setting = memo(() => {
     if (newData !== undefined) {
       setCurrentUser({ ...currentUser, currentUserName: newData });
     }
+    await console.log(newData);
     setState({ ...state, snackBarOpen: true });
   };
 
@@ -69,7 +70,7 @@ const Setting = memo(() => {
         />
       </Box>
       <Footer />
-      <RightHomeDrawer />
+      {/* <RightHomeDrawer /> */}
     </Box>
   );
 });

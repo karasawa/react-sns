@@ -28,6 +28,7 @@ const UserList: React.VFC<Props> = memo(({ friend }) => {
         listStyle: "none",
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
         padding: 0,
       }}
     >
@@ -35,7 +36,7 @@ const UserList: React.VFC<Props> = memo(({ friend }) => {
         <Paper
           key={index}
           elevation={1}
-          sx={{ textAlign: "left", p: 0.5, m: 1 }}
+          sx={{ textAlign: "left", p: 0.5, m: 1, width: 500 }}
         >
           <ListItem>
             <ListItemIcon>

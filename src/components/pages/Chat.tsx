@@ -61,7 +61,7 @@ const Chat = memo(() => {
         <ChatList chat={chat} />
         <InputMessageBanner chatFetch={chatFetch} />
       </Box>
-      <RightHomeDrawer />
+      {/* <RightHomeDrawer /> */}
     </Box>
   );
 });
