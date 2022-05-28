@@ -8,7 +8,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
 
 interface Props {
-  chat: any[] | undefined;
+  chat: any | undefined;
 }
 
 interface ChatData {
@@ -35,8 +35,8 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
         <></>
       ) : (
         <>
-          {chat.map((chatData: ChatData, index: number) => {
-            if (chatData.from === currentUser.currentUserEmail) {
+          {chat.map((chatData: any, index: number) => {
+            if (chatData.data.from === currentUser.currentUserEmail) {
               return (
                 <Paper
                   key={index}
@@ -53,7 +53,7 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                 >
                   <ListItem sx={{ padding: 0.8 }}>
                     <ListItemText sx={{ textAlign: "right" }}>
-                      {chatData.message}
+                      {chatData.data.message}
                     </ListItemText>
                     <ListItemIcon
                       sx={{
@@ -105,7 +105,7 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                         {chatWithFriend.chatWithFriendName}
                       </Typography>
                     </ListItemIcon>
-                    <ListItemText>{chatData.message}</ListItemText>
+                    <ListItemText>{chatData.data.message}</ListItemText>
                   </ListItem>
                 </Paper>
               );

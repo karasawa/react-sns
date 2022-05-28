@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
-import { initGet, initGets } from "../../service/api";
+import { initGet } from "../../service/api";
 import FriendList from "../organisms/FriendList";
 import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
 import { useRecoilValue } from "recoil";
@@ -32,8 +32,9 @@ const Home = memo(() => {
   const fetch = async () => {
     const friends = await initGet(currentUser.currentUserEmail);
     if (friends) {
-      await setFriend(friends[0].friend);
+      await setFriend(friends);
     }
+    console.log(friend);
   };
 
   return (

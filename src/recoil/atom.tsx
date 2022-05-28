@@ -17,6 +17,8 @@ interface ChatWithFriend {
   chatWithFriendEmail: string;
   chatWithFriendName: string;
   exist_flag: boolean;
+  chat_page_login: EpochTimeStamp;
+  chat: any[];
 }
 
 export const chatWithFriendState = atom<ChatWithFriend>({
@@ -25,5 +27,7 @@ export const chatWithFriendState = atom<ChatWithFriend>({
     chatWithFriendEmail: "",
     chatWithFriendName: "",
     exist_flag: true,
+    chat_page_login: 0,
+    chat: [],
   },
 });

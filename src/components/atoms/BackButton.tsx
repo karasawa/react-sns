@@ -15,6 +15,8 @@ const BackButton = memo(() => {
       chatWithFriendEmail: "",
       chatWithFriendName: "",
       exist_flag: true,
+      chat_page_login: 0,
+      chat: [],
     });
   };
 

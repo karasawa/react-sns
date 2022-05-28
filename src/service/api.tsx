@@ -30,72 +30,118 @@ export const getCurrentUserName = async (email: string) => {
   });
 };
 
+// export const initGet = async (currentUser: string | undefined) => {
+//   if (currentUser === undefined) {
+//     return [];
+//   }
+//   const friend = await db.collection("user").where("email", "==", currentUser);
+//   return friend.get().then((snapShot) => {
+//     let friends: any[] = [];
+//     let sample: any[] = [];
+//     snapShot.forEach((doc) => {
+//       sample.push({ friend: doc.data().friend });
+//       friends.push({
+//         friend: doc.data().friend,
+//       });
+//     });
+//     return friends;
+//   });
+// };
+
 export const initGet = async (currentUser: string | undefined) => {
   if (currentUser === undefined) {
     return [];
   }
-  const friend = await db.collection("user").where("email", "==", currentUser);
-  return friend.get().then((snapShot) => {
-    let friends: any[] = [];
-    let sample: any[] = [];
+  const friendDoc = await db
+    .collection("user")
+    .doc(currentUser)
+    .collection("friend");
+  return friendDoc.get().then((snapShot) => {
+    let friends: any = [];
     snapShot.forEach((doc) => {
-      sample.push({ friend: doc.data().friend });
-      friends.push({
-        friend: doc.data().friend,
-      });
+      friends.push(doc.data());
     });
     return friends;
   });
 };
 
-export const initGets = async (currentUser: string | undefined) => {
-  if (currentUser === undefined) {
-    return [];
-  }
-  const friend = await db.collection("user").where("email", "==", currentUser);
-  return friend.get().then((snapShot) => {
-    let friends: any[] = [];
-    snapShot.forEach((doc) => {
-      friends.push({
-        friend: doc.data().friend,
-      });
-    });
-    return friend;
-  });
-};
+// export const chatGet = async (
+//   currentUser: string | undefined,
+//   friend: string | undefined
+// ) => {
+//   if (currentUser !== undefined) {
+//     const toChat = await db
+//       .collection("chat")
+//       .where("from", "==", friend)
+//       .where("to", "==", currentUser);
+//     const fromChat = await db
+//       .collection("chat")
+//       .where("from", "==", currentUser)
+//       .where("to", "==", friend);
+//     let chats: any[] = [];
+//     toChat.get().then((snapShot) => {
+//       snapShot.forEach((doc) => {
+//         chats.push({
+//           from: doc.data().from,
+//           to: doc.data().to,
+//           message: doc.data().message,
+//           send_time: doc.data().send_time,
+//         });
+//       });
+//     });
+//     return fromChat.get().then((snapShot) => {
+//       snapShot.forEach((doc) => {
+//         chats.push({
+//           from: doc.data().from,
+//           to: doc.data().to,
+//           message: doc.data().message,
+//           send_time: doc.data().send_time,
+//         });
+//       });
+//       chats.sort((a, b) => compare(a.send_time, b.send_time, false));
+//       return chats;
+//     });
+//   }
+// };
 
-export const chatGet = async (currentUser?: string, friend?: string) => {
-  const toChat = await db
-    .collection("chat")
-    .where("from", "==", friend)
-    .where("to", "==", currentUser);
-  const fromChat = await db
-    .collection("chat")
-    .where("from", "==", currentUser)
-    .where("to", "==", friend);
-  let chats: any[] = [];
-  toChat.get().then((snapShot) => {
-    snapShot.forEach((doc) => {
-      chats.push({
-        from: doc.data().from,
-        to: doc.data().to,
-        message: doc.data().message,
-        send_time: doc.data().send_time,
+export const chatGet = async (
+  currentUser: string | undefined,
+  friend: string | undefined
+) => {
+  if (currentUser !== undefined) {
+    const toChat = await db
+      .collection("user")
+      .doc(currentUser)
+      .collection("friend")
+      .where("email", "==", friend);
+    const fromChat = await db
+      .collection("user")
+      .doc(friend)
+      .collection("friend")
+      .where("email", "==", currentUser);
+    let chats: any = [];
+    let allChats: any = [];
+    toChat.get().then((snapShot) => {
+      snapShot.forEach((doc) => {
+        chats.push(doc.data().chat);
       });
     });
-  });
-  return fromChat.get().then((snapShot) => {
-    snapShot.forEach((doc) => {
-      chats.push({
-        from: doc.data().from,
-        to: doc.data().to,
-        message: doc.data().message,
-        send_time: doc.data().send_time,
+    return fromChat.get().then((snapShot) => {
+      snapShot.forEach((doc) => {
+        chats.push(doc.data().chat);
       });
+      chats[0].forEach((data: any) => {
+        allChats.push({ data });
+      });
+      chats[1].forEach((data: any) => {
+        allChats.push({ data });
+      });
+      allChats.sort((a: any, b: any) =>
+        compare(a.data.send_time, b.data.send_time, false)
+      );
+      return allChats;
     });
-    chats.sort((a, b) => compare(a.send_time, b.send_time, false));
-    return chats;
-  });
+  }
 };
 
 var compare = (a: any, b: any, desc = true) => {

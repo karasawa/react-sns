@@ -11,7 +11,6 @@ import Paper from "@mui/material/Paper";
 import DeleteFriendButton from "../atoms/DeleteFriendButton";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
-import useMedia from "use-media";
 
 interface Props {
   friend: any[] | undefined;
@@ -19,16 +18,16 @@ interface Props {
 }
 
 interface FriendData {
-  friend_email: string;
-  friend_name: string;
+  email: string;
+  name: string;
   chat_page_login: EpochTimeStamp;
   exist_flag: boolean;
+  chat: any[];
 }
 
 const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
   const currentUser = useRecoilValue(currentUserState);
   const setChatWithFriend = useSetRecoilState(chatWithFriendState);
-  const isWide = useMedia({ minWidth: "1000px" });
 
   return (
     <ul
@@ -60,22 +59,24 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
                     to="/chat"
                     onClick={() =>
                       setChatWithFriend({
-                        chatWithFriendEmail: friendData.friend_email,
-                        chatWithFriendName: friendData.friend_name,
+                        chatWithFriendEmail: friendData.email,
+                        chatWithFriendName: friendData.name,
                         exist_flag: friendData.exist_flag,
+                        chat_page_login: friendData.chat_page_login,
+                        chat: friendData.chat,
                       })
                     }
                     style={{ textDecoration: "none", color: "#4a453a" }}
                   >
-                    {friendData.friend_name}
+                    {friendData.name}
                   </Link>
                 </ListItemText>
                 <ListItemSecondaryAction>
-                  <DeleteFriendButton
+                  {/* <DeleteFriendButton
                     currentUser={currentUser.currentUserEmail}
                     fetch={fetch}
                     friend={friendData}
-                  />
+                  /> */}
                 </ListItemSecondaryAction>
               </ListItem>
             </Paper>
