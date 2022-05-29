@@ -38,7 +38,6 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        alignItems: "center",
         padding: 0,
       }}
     >
@@ -50,7 +49,13 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
             <Paper
               key={index}
               elevation={1}
-              sx={{ textAlign: "left", width: 500, p: 0, m: 0.4 }}
+              sx={{
+                textAlign: "left",
+                p: 0,
+                m: 0.5,
+                marginLeft: 2,
+                marginRight: 2,
+              }}
             >
               <ListItem>
                 <ListItemIcon>

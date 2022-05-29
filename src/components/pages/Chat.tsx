@@ -39,6 +39,7 @@ const Chat = memo(() => {
       chatWithFriend.chatWithFriendEmail
     );
     await setChat(chats);
+    console.log(chats);
     // const user = await updateChatPageLogin(
     //   currentUser.currentUserEmail,
     //   chatWithFriend.chatWithFriendEmail

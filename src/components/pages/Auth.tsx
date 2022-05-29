@@ -69,7 +69,7 @@ const Auth = memo(() => {
   };
 
   return (
-    <Box sx={{ background: "#ced4d9" }}>
+    <Box sx={{ background: "#ced4d9", height: "100vh" }}>
       <Header />
       <form onSubmit={handleSubmit(authHandle)}>
         <Box

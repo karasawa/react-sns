@@ -20,8 +20,6 @@ interface FriendData {
 }
 
 const UserList: React.VFC<Props> = memo(({ friend }) => {
-  const currentUser = useRecoilValue(currentUserState);
-  const setChatWithFriend = useSetRecoilState(chatWithFriendState);
   const [open, setOpen] = useState(false);
   const [requestFriend, setRequestFriend] = useState("");
 
@@ -36,7 +34,6 @@ const UserList: React.VFC<Props> = memo(({ friend }) => {
         listStyle: "none",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         padding: 0,
       }}
     >
@@ -44,7 +41,13 @@ const UserList: React.VFC<Props> = memo(({ friend }) => {
         <Paper
           key={index}
           elevation={1}
-          sx={{ textAlign: "left", p: 0.5, m: 1, width: 500 }}
+          sx={{
+            textAlign: "left",
+            p: 0.6,
+            m: 0.5,
+            marginLeft: 2,
+            marginRight: 2,
+          }}
         >
           <ListItem>
             <ListItemIcon>

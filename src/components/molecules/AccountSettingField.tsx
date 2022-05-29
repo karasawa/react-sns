@@ -53,7 +53,7 @@ const AccountSettingField: React.VFC<Props> = memo(
           id="outlined-basic"
           placeholder="メールアドレス"
           sx={{
-            width: 350,
+            width: 270,
             background: "#fff",
             borderRadius: 1,
           }}
@@ -71,12 +71,12 @@ const AccountSettingField: React.VFC<Props> = memo(
             fontSize: 18,
           }}
         >
-          ニックネーム
+          ユーザー名
         </Typography>
         <TextField
           id="outlined-basic"
-          placeholder="ニックネーム"
-          sx={{ width: 350, background: "#fff", borderRadius: 1 }}
+          placeholder="ユーザー名"
+          sx={{ width: 270, background: "#fff", borderRadius: 1 }}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

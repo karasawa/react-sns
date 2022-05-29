@@ -22,7 +22,7 @@ const SearchUserField: React.VFC<Props> = memo(
         <TextField
           id="outlined-basic"
           placeholder="メールアドレスで友達を検索"
-          sx={{ width: 330, background: "#fff", borderRadius: 1 }}
+          sx={{ width: 270, background: "#fff", borderRadius: 1 }}
           value={searchResult}
           onChange={(e) => setSearchResult(e.target.value)}
         />

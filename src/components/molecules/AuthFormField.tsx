@@ -31,7 +31,7 @@ const AuthFormField: React.VFC<Props> = memo(
           id="email"
           label="email"
           variant="outlined"
-          sx={{ width: 330, m: 0.8, background: "#fff", borderRadius: 1 }}
+          sx={{ width: 270, m: 0.8, background: "#fff", borderRadius: 1 }}
           {...register("email")}
           error={"email" in errors}
           helperText={errors.email?.message}
@@ -43,7 +43,7 @@ const AuthFormField: React.VFC<Props> = memo(
           label="password"
           type="password"
           variant="outlined"
-          sx={{ width: 330, m: 0.8, background: "#fff", borderRadius: 1 }}
+          sx={{ width: 270, m: 0.8, background: "#fff", borderRadius: 1 }}
           {...register("password")}
           error={"password" in errors}
           helperText={errors.password?.message}
@@ -57,7 +57,7 @@ const AuthFormField: React.VFC<Props> = memo(
             id="username"
             label="username"
             variant="outlined"
-            sx={{ width: 330, m: 0.8, background: "#fff", borderRadius: 1 }}
+            sx={{ width: 270, m: 0.8, background: "#fff", borderRadius: 1 }}
             {...register("username")}
             error={"username" in errors}
             helperText={errors.username?.message}

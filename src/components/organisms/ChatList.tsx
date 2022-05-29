@@ -12,10 +12,11 @@ interface Props {
 }
 
 interface ChatData {
-  to: string;
-  from: string;
-  message: string;
-  send_time: EpochTimeStamp;
+  data: {
+    from: string;
+    message: string;
+    send_time: any;
+  };
 }
 
 const ChatList: React.VFC<Props> = memo(({ chat }) => {
@@ -27,7 +28,6 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
         listStyle: "none",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         padding: 0,
       }}
     >
@@ -44,9 +44,10 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                   sx={{
                     justifyContent: "right",
                     textAlign: "right",
+                    p: 0.5,
                     m: 0.5,
-                    marginLeft: 20,
-                    width: 500,
+                    marginLeft: 10,
+                    marginRight: 2,
                     background: "#a2ccff",
                     color: "#fff",
                   }}
@@ -82,9 +83,10 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                   elevation={1}
                   sx={{
                     textAlign: "left",
+                    p: 0.5,
                     m: 0.5,
-                    marginRight: 20,
-                    width: 500,
+                    marginLeft: 2,
+                    marginRight: 10,
                   }}
                 >
                   <ListItem sx={{ padding: 0.8 }}>
@@ -128,12 +130,13 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
             sx={{
               justifyContent: "center",
               textAlign: "center",
+              p: 0,
               m: 0.5,
+              marginLeft: 2,
+              marginRight: 2,
               background: "#98a69c",
               opacity: 0.5,
               color: "#fff",
-              padding: 0.5,
-              width: 600,
             }}
           >
             {chatWithFriend.chatWithFriendName}が退出しました

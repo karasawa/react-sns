@@ -80,6 +80,7 @@ const Home = memo(() => {
                 </a>
               </Typography>
             </Paper>
+            <Box sx={{ height: 30 }}></Box>
           </Box>
         </Box>
       </Box>

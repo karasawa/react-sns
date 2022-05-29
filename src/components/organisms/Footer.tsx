@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import InfoIcon from "@mui/icons-material/Info";
 
 const Footer = memo(() => {
   const isWide = useMedia({ minWidth: "1000px" });
@@ -56,11 +57,11 @@ const Footer = memo(() => {
                     }}
                   >
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                      <Link to="/request" style={{ color: "#fff" }}>
-                        <PersonAddIcon sx={{ height: "100%" }} />
+                      <Link to="/introduction" style={{ color: "#fff" }}>
+                        <InfoIcon sx={{ height: "100%" }} />
                       </Link>
                       <Typography variant="subtitle2" component="div">
-                        友達申請
+                        ゆるちゃとは
                       </Typography>
                     </Box>
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -69,6 +70,14 @@ const Footer = memo(() => {
                       </Link>
                       <Typography variant="subtitle2" component="div">
                         ホーム
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <Link to="/request" style={{ color: "#fff" }}>
+                        <PersonAddIcon sx={{ height: "100%" }} />
+                      </Link>
+                      <Typography variant="subtitle2" component="div">
+                        友達申請
                       </Typography>
                     </Box>
                     <Box sx={{ display: "flex", flexDirection: "column" }}>

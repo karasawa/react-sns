@@ -30,7 +30,6 @@ const Request = memo(() => {
   const userFetch = async () => {
     const friends = await friendSearch(searchResult);
     await setFriend(friends);
-    console.log(friends);
   };
 
   return (
