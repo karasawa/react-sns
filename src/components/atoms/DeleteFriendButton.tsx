@@ -6,10 +6,7 @@ import { deleteFriend } from "../../service/api";
 interface Props {
   currentUser: string | undefined;
   fetch: () => void;
-  friend: {
-    friend_email: string;
-    friend_name: string;
-  };
+  friend: string;
 }
 
 const DeleteFriendButton: React.VFC<Props> = memo(
@@ -20,7 +17,12 @@ const DeleteFriendButton: React.VFC<Props> = memo(
     };
 
     return (
-      <IconButton edge="end" aria-label="delete" onClick={deleteHandle}>
+      <IconButton
+        edge="end"
+        aria-label="delete"
+        onClick={deleteHandle}
+        sx={{ p: 0.5 }}
+      >
         <DeleteForeverIcon sx={{ color: "#4a453a" }} />
       </IconButton>
     );

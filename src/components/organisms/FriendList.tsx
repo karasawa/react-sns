@@ -11,9 +11,10 @@ import Paper from "@mui/material/Paper";
 import DeleteFriendButton from "../atoms/DeleteFriendButton";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
+import Typography from "@mui/material/Typography";
 
 interface Props {
-  friend: any[] | undefined;
+  friend: any | undefined;
   fetch: () => void;
 }
 
@@ -22,7 +23,8 @@ interface FriendData {
   name: string;
   chat_page_login: EpochTimeStamp;
   exist_flag: boolean;
-  chat: any[];
+  chat: any;
+  most_new_mes: any;
 }
 
 const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
@@ -48,7 +50,7 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
             <Paper
               key={index}
               elevation={1}
-              sx={{ textAlign: "left", width: 500, p: 0.5, m: 1 }}
+              sx={{ textAlign: "left", width: 500, p: 0, m: 0.4 }}
             >
               <ListItem>
                 <ListItemIcon>
@@ -69,14 +71,36 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
                     style={{ textDecoration: "none", color: "#4a453a" }}
                   >
                     {friendData.name}
+                    {friendData.most_new_mes ? (
+                      <Typography variant="subtitle2" sx={{ color: "#999999" }}>
+                        {friendData.most_new_mes.message}
+                      </Typography>
+                    ) : (
+                      <></>
+                    )}
                   </Link>
                 </ListItemText>
-                <ListItemSecondaryAction>
-                  {/* <DeleteFriendButton
+                <ListItemSecondaryAction
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {friendData.most_new_mes ? (
+                    <Typography variant="subtitle2" sx={{ color: "#999999" }}>
+                      {friendData.most_new_mes.send_time.toDate().getHours()}:
+                      {friendData.most_new_mes.send_time.toDate().getMinutes()}
+                    </Typography>
+                  ) : (
+                    <></>
+                  )}
+                  <DeleteFriendButton
                     currentUser={currentUser.currentUserEmail}
                     fetch={fetch}
-                    friend={friendData}
-                  /> */}
+                    friend={friendData.email}
+                  />
                 </ListItemSecondaryAction>
               </ListItem>
             </Paper>

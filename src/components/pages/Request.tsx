@@ -14,7 +14,7 @@ import UserList from "../organisms/UserList";
 import SearchUserField from "../molecules/SearchUserField";
 
 const Request = memo(() => {
-  const [friend, setFriend] = useState<any[]>([]);
+  const [friend, setFriend] = useState<any>([]);
   const [searchResult, setSearchResult] = useState("");
   const currentUser = useRecoilValue(currentUserState);
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ const Request = memo(() => {
   const userFetch = async () => {
     const friends = await friendSearch(searchResult);
     await setFriend(friends);
+    console.log(friends);
   };
 
   return (

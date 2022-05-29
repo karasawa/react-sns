@@ -4,6 +4,7 @@ import Auth from "./components/pages/Auth";
 import Chat from "./components/pages/Chat";
 import Request from "./components/pages/Request";
 import Setting from "./components/pages/Setting";
+import Introduction from "./components/pages/Introduction";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -36,6 +37,7 @@ function App() {
               <Route path="/chat" element={<Chat />} />
               <Route path="/request" element={<Request />} />
               <Route path="/setting" element={<Setting />} />
+              <Route path="/introduction" element={<Introduction />} />
             </Routes>
           </Router>
         </div>

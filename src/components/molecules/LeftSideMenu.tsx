@@ -10,6 +10,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Divider from "@mui/material/Divider";
 import { useRecoilValue } from "recoil";
@@ -21,16 +22,20 @@ const LeftSideMenu = memo(() => {
 
   const sideMenuContents = [
     {
-      text: "友達申請",
-      path: "/request",
-      icon: <PersonAddIcon />,
+      text: "ゆるちゃとは",
+      path: "/introduction",
+      icon: <InfoIcon />,
     },
     {
       text: "トップページ",
       path: "/home",
       icon: <HomeIcon />,
     },
-
+    {
+      text: "友達申請",
+      path: "/request",
+      icon: <PersonAddIcon />,
+    },
     {
       text: "アカウント設定",
       path: "/setting",

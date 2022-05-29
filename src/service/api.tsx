@@ -30,24 +30,6 @@ export const getCurrentUserName = async (email: string) => {
   });
 };
 
-// export const initGet = async (currentUser: string | undefined) => {
-//   if (currentUser === undefined) {
-//     return [];
-//   }
-//   const friend = await db.collection("user").where("email", "==", currentUser);
-//   return friend.get().then((snapShot) => {
-//     let friends: any[] = [];
-//     let sample: any[] = [];
-//     snapShot.forEach((doc) => {
-//       sample.push({ friend: doc.data().friend });
-//       friends.push({
-//         friend: doc.data().friend,
-//       });
-//     });
-//     return friends;
-//   });
-// };
-
 export const initGet = async (currentUser: string | undefined) => {
   if (currentUser === undefined) {
     return [];
@@ -64,45 +46,6 @@ export const initGet = async (currentUser: string | undefined) => {
     return friends;
   });
 };
-
-// export const chatGet = async (
-//   currentUser: string | undefined,
-//   friend: string | undefined
-// ) => {
-//   if (currentUser !== undefined) {
-//     const toChat = await db
-//       .collection("chat")
-//       .where("from", "==", friend)
-//       .where("to", "==", currentUser);
-//     const fromChat = await db
-//       .collection("chat")
-//       .where("from", "==", currentUser)
-//       .where("to", "==", friend);
-//     let chats: any[] = [];
-//     toChat.get().then((snapShot) => {
-//       snapShot.forEach((doc) => {
-//         chats.push({
-//           from: doc.data().from,
-//           to: doc.data().to,
-//           message: doc.data().message,
-//           send_time: doc.data().send_time,
-//         });
-//       });
-//     });
-//     return fromChat.get().then((snapShot) => {
-//       snapShot.forEach((doc) => {
-//         chats.push({
-//           from: doc.data().from,
-//           to: doc.data().to,
-//           message: doc.data().message,
-//           send_time: doc.data().send_time,
-//         });
-//       });
-//       chats.sort((a, b) => compare(a.send_time, b.send_time, false));
-//       return chats;
-//     });
-//   }
-// };
 
 export const chatGet = async (
   currentUser: string | undefined,
@@ -144,7 +87,7 @@ export const chatGet = async (
   }
 };
 
-var compare = (a: any, b: any, desc = true) => {
+export const compare = (a: any, b: any, desc = true) => {
   if (a !== a && b !== b) return 0;
   if (a !== a) return 1;
   if (b !== b) return -1;
@@ -161,103 +104,119 @@ var compare = (a: any, b: any, desc = true) => {
   return a < b ? sig : a > b ? -sig : 0;
 };
 
-export const friendSearch = async (searchResult?: string) => {
-  const friend = await db.collection("user").where("email", "==", searchResult);
-  return friend.get().then((snapShot) => {
-    let friends: any[] = [];
-    snapShot.forEach((doc) => {
-      friends.push({
-        friend: doc.data(),
+export const friendSearch = async (searchResult: string | undefined) => {
+  if (searchResult !== undefined) {
+    const friend = await db
+      .collection("user")
+      .where("email", "==", searchResult);
+    return friend.get().then((snapShot) => {
+      let friends: any = [];
+      snapShot.forEach((doc) => {
+        friends.push({
+          friend: doc.data(),
+        });
       });
+      return friends;
     });
-    return friends;
-  });
+  }
 };
 
 export const addFriend = async (
-  currentUserEmail?: string,
-  currentUserName?: string,
-  friendEmail?: string,
-  friendName?: string
+  currentUserEmail: string | undefined,
+  currentUserName: string | undefined,
+  friendEmail: string | undefined,
+  friendName: string | undefined
 ) => {
-  await db
-    .collection("user")
-    .doc(currentUserEmail)
-    .update({
-      friend: firebase.firestore.FieldValue.arrayUnion({
-        friend_email: friendEmail,
-        friend_name: friendName,
+  if (currentUserEmail !== undefined && friendEmail !== undefined) {
+    await db
+      .collection("user")
+      .doc(currentUserEmail)
+      .collection("friend")
+      .doc(friendEmail)
+      .set({
+        chat: [],
         chat_page_login: null,
+        email: friendEmail,
         exist_flag: true,
-      }),
-    });
-  await db
-    .collection("user")
-    .doc(friendEmail)
-    .update({
-      friend: firebase.firestore.FieldValue.arrayUnion({
-        friend_email: currentUserEmail,
-        friend_name: currentUserName,
+        name: friendName,
+      });
+    await db
+      .collection("user")
+      .doc(friendEmail)
+      .collection("friend")
+      .doc(currentUserEmail)
+      .set({
+        chat: [],
         chat_page_login: null,
+        email: currentUserEmail,
         exist_flag: true,
-      }),
-    });
+        name: currentUserName,
+      });
+  }
 };
 
 export const sendMessage = (
-  currentUser?: string,
-  friend?: string,
-  message?: string
+  currentUser: string | undefined,
+  friend: string | undefined,
+  message: string | undefined
 ) => {
-  db.collection("chat").add({
-    send_time: firebase.firestore.FieldValue.serverTimestamp(),
-    to: friend,
-    from: currentUser,
-    message: message,
-  });
-};
-
-interface Friend {
-  friend_email: string;
-  friend_name: string;
-}
-
-export const deleteFriend = async (currentUser?: string, friend?: Friend) => {
-  const target = await db.collection("user").where("email", "==", currentUser);
-  return target.get().then((snapShot) => {
-    let dataArr: any[] = [];
-    snapShot.forEach((element) => {
-      dataArr.push({
-        friend: element.data().friend,
-      });
-    });
-    dataArr = dataArr[0].friend.filter(
-      (data: any) => friend?.friend_email === data.friend_email
-    );
+  if (message !== undefined && message !== "") {
     db.collection("user")
       .doc(currentUser)
+      .collection("friend")
+      .doc(friend)
       .update({
-        friend: firebase.firestore.FieldValue.arrayRemove({
-          friend_email: friend?.friend_email,
-          friend_name: friend?.friend_name,
-          chat_page_login: dataArr[0].chat_page_login,
-          exist_flag: dataArr[0].exist_flag,
+        chat: firebase.firestore.FieldValue.arrayUnion({
+          from: currentUser,
+          message: message,
+          send_time: firebase.firestore.Timestamp.now(),
         }),
       });
-  });
+  }
+};
+
+export const deleteFriend = async (
+  currentUser: string | undefined,
+  friend: string | undefined
+) => {
+  if (currentUser !== undefined && friend !== undefined) {
+    await db
+      .collection("user")
+      .doc(currentUser)
+      .collection("friend")
+      .doc(friend)
+      .delete()
+      .then(() => console.log("delete success"))
+      .catch((err) => console.log(err));
+  }
 };
 
 export const updateAccountInfo = async (
-  currentUserEmail?: string,
-  currentUserName?: string
+  currentUserEmail: string | undefined,
+  currentUserName: string | undefined
 ) => {
-  return db
-    .collection("user")
-    .doc(currentUserEmail)
-    .update({ name: currentUserName })
-    .then(() => {
-      return currentUserName;
-    });
+  if (currentUserEmail !== undefined && currentUserName !== undefined) {
+    db.collection("user")
+      .doc(currentUserEmail)
+      .collection("friend")
+      .get()
+      .then((snapShot) => {
+        snapShot.forEach((doc) => {
+          db.collection("user")
+            .doc(doc.data().email)
+            .collection("friend")
+            .doc(currentUserEmail)
+            .update({ name: currentUserName });
+        });
+      });
+    return db
+      .collection("user")
+      .doc(currentUserEmail)
+      .update({ name: currentUserName })
+      .then(() => {
+        return currentUserName;
+      });
+  }
 };
 
 export const updateChatPageLogin = async (

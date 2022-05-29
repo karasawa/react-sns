@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
-import { initGet } from "../../service/api";
+import { initGet, compare } from "../../service/api";
 import FriendList from "../organisms/FriendList";
 import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
 import { useRecoilValue } from "recoil";
@@ -13,7 +13,7 @@ import RightHomeDrawer from "../organisms/RightHomeDrawer";
 import Footer from "../organisms/Footer";
 
 const Home = memo(() => {
-  const [friend, setFriend] = useState<any[]>([]);
+  const [friend, setFriend] = useState<any>([]);
   const currentUser = useRecoilValue(currentUserState);
   const navigate = useNavigate();
 
@@ -31,10 +31,16 @@ const Home = memo(() => {
 
   const fetch = async () => {
     const friends = await initGet(currentUser.currentUserEmail);
+    friends.forEach(async (friend: any) => {
+      await friend.chat.sort(compare);
+      const chat_length = await friend.chat.length;
+      friend.most_new_mes = await friend.chat[chat_length - 1];
+    });
     if (friends) {
       await setFriend(friends);
     }
-    console.log(friend);
+    // console.log(friends[0].chat[5].send_time.toDate().getFullYear());
+    console.log(friends);
   };
 
   return (

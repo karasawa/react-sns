@@ -21,7 +21,6 @@ const SearchUserField: React.VFC<Props> = memo(
       >
         <TextField
           id="outlined-basic"
-          // size="small"
           placeholder="メールアドレスで友達を検索"
           sx={{ width: 330, background: "#fff", borderRadius: 1 }}
           value={searchResult}

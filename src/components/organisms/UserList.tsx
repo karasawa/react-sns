@@ -8,7 +8,15 @@ import { currentUserState, chatWithFriendState } from "../../recoil/atom";
 import FriendRequestDialog from "../molecules/FriendRequestDialog";
 
 interface Props {
-  friend: any[];
+  friend: any;
+}
+
+interface FriendData {
+  friend: {
+    friend: any;
+    email: string;
+    name: string;
+  };
 }
 
 const UserList: React.VFC<Props> = memo(({ friend }) => {
@@ -32,7 +40,7 @@ const UserList: React.VFC<Props> = memo(({ friend }) => {
         padding: 0,
       }}
     >
-      {friend.map((friendData: any, index: number) => (
+      {friend.map((friendData: FriendData, index: number) => (
         <Paper
           key={index}
           elevation={1}
@@ -48,7 +56,7 @@ const UserList: React.VFC<Props> = memo(({ friend }) => {
                 onClick={() => friendRequestHandle(friendData.friend)}
                 style={{ textDecoration: "none", color: "#000" }}
               >
-                {friendData.friend.email}
+                {friendData.friend.name}
               </Link>
             </ListItemText>
           </ListItem>
