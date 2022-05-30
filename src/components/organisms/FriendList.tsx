@@ -12,6 +12,7 @@ import DeleteFriendButton from "../atoms/DeleteFriendButton";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
 import Typography from "@mui/material/Typography";
+import Badge from "@mui/material/Badge";
 
 interface Props {
   friend: any | undefined;
@@ -25,6 +26,7 @@ interface FriendData {
   exist_flag: boolean;
   chat: any;
   most_new_mes: any;
+  unRead_message: number;
 }
 
 const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
@@ -80,6 +82,19 @@ const FriendList: React.VFC<Props> = memo(({ friend, fetch }) => {
                       <Typography variant="subtitle2" sx={{ color: "#999999" }}>
                         {friendData.most_new_mes.message}
                       </Typography>
+                    ) : (
+                      <></>
+                    )}
+                    {friendData.unRead_message > 0 ? (
+                      <Badge
+                        badgeContent={friendData.unRead_message}
+                        color="primary"
+                        sx={{
+                          position: "absolute",
+                          top: "0%",
+                          right: "0%",
+                        }}
+                      ></Badge>
                     ) : (
                       <></>
                     )}

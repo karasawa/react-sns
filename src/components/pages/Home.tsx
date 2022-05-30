@@ -35,12 +35,17 @@ const Home = memo(() => {
       await friend.chat.sort(compare);
       const chat_length = await friend.chat.length;
       friend.most_new_mes = await friend.chat[chat_length - 1];
+      const login_time = await friend.chat_page_login.seconds;
+      const unRead_message = friend.chat.filter(
+        (data: any) =>
+          data.from !== currentUser.currentUserEmail &&
+          data.send_time.seconds > login_time
+      );
+      friend.unRead_message = await unRead_message.length;
     });
     if (friends) {
       await setFriend(friends);
     }
-    // console.log(friends[0].chat[5].send_time.toDate().getFullYear());
-    console.log(friends);
   };
 
   return (

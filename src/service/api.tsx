@@ -47,6 +47,69 @@ export const initGet = async (currentUser: string | undefined) => {
   });
 };
 
+// export const chatGet = async (
+//   currentUser: string | undefined,
+//   friend: string | undefined
+// ) => {
+//   if (currentUser !== undefined) {
+//     const toChat = await db
+//       .collection("user")
+//       .doc(currentUser)
+//       .collection("friend")
+//       .where("email", "==", friend);
+//     const fromChat = await db
+//       .collection("user")
+//       .doc(friend)
+//       .collection("friend")
+//       .where("email", "==", currentUser);
+//     let chats: any = [];
+//     let allChats: any = [];
+//     toChat.get().then((snapShot) => {
+//       snapShot.forEach((doc) => {
+//         chats.push(doc.data().chat);
+//       });
+//     });
+//     return fromChat.get().then((snapShot) => {
+//       snapShot.forEach((doc) => {
+//         chats.push(doc.data().chat);
+//       });
+//       chats[0].forEach((data: any) => {
+//         allChats.push({ data });
+//       });
+//       chats[1].forEach((data: any) => {
+//         allChats.push({ data });
+//       });
+//       allChats.sort((a: any, b: any) =>
+//         compare(a.data.send_time, b.data.send_time, false)
+//       );
+//       return allChats;
+//     });
+//   }
+// };
+
+// export const chatGet = async (
+//   currentUser: string | undefined,
+//   friend: string | undefined
+// ) => {
+//   if (currentUser !== undefined) {
+//     const Chat = await db
+//       .collection("user")
+//       .doc(currentUser)
+//       .collection("friend")
+//       .where("email", "==", friend);
+//     let chats: any = [];
+//     return Chat.get().then((snapShot) => {
+//       snapShot.forEach((doc) => {
+//         chats.push();
+//       });
+//       chats.sort((a: any, b: any) =>
+//         compare(a.data.send_time, b.data.send_time, false)
+//       );
+//       return chats;
+//     });
+//   }
+// };
+
 export const chatGet = async (
   currentUser: string | undefined,
   friend: string | undefined
@@ -57,26 +120,13 @@ export const chatGet = async (
       .doc(currentUser)
       .collection("friend")
       .where("email", "==", friend);
-    const fromChat = await db
-      .collection("user")
-      .doc(friend)
-      .collection("friend")
-      .where("email", "==", currentUser);
     let chats: any = [];
     let allChats: any = [];
-    toChat.get().then((snapShot) => {
-      snapShot.forEach((doc) => {
-        chats.push(doc.data().chat);
-      });
-    });
-    return fromChat.get().then((snapShot) => {
+    return toChat.get().then((snapShot) => {
       snapShot.forEach((doc) => {
         chats.push(doc.data().chat);
       });
       chats[0].forEach((data: any) => {
-        allChats.push({ data });
-      });
-      chats[1].forEach((data: any) => {
         allChats.push({ data });
       });
       allChats.sort((a: any, b: any) =>
@@ -165,6 +215,17 @@ export const sendMessage = (
       .doc(currentUser)
       .collection("friend")
       .doc(friend)
+      .update({
+        chat: firebase.firestore.FieldValue.arrayUnion({
+          from: currentUser,
+          message: message,
+          send_time: firebase.firestore.Timestamp.now(),
+        }),
+      });
+    db.collection("user")
+      .doc(friend)
+      .collection("friend")
+      .doc(currentUser)
       .update({
         chat: firebase.firestore.FieldValue.arrayUnion({
           from: currentUser,
