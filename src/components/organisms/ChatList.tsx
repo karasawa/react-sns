@@ -53,6 +53,25 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                   }}
                 >
                   <ListItem sx={{ padding: 0.8 }}>
+                    {/* <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "end",
+                        height: 40,
+                      }}
+                    > */}
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        textAlign: "right",
+                        color: "#EEEEEE",
+                      }}
+                    >
+                      {chatData.data.send_time.toDate().getHours()}:
+                      {chatData.data.send_time.toDate().getMinutes()}
+                    </Typography>
+                    {/* </Box> */}
                     <ListItemText sx={{ textAlign: "right" }}>
                       {chatData.data.message}
                     </ListItemText>
@@ -108,6 +127,13 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                       </Typography>
                     </ListItemIcon>
                     <ListItemText>{chatData.data.message}</ListItemText>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ color: "#999999", textAlign: "left" }}
+                    >
+                      {chatData.data.send_time.toDate().getHours()}:
+                      {chatData.data.send_time.toDate().getMinutes()}
+                    </Typography>
                   </ListItem>
                 </Paper>
               );

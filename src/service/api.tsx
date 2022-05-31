@@ -47,69 +47,6 @@ export const initGet = async (currentUser: string | undefined) => {
   });
 };
 
-// export const chatGet = async (
-//   currentUser: string | undefined,
-//   friend: string | undefined
-// ) => {
-//   if (currentUser !== undefined) {
-//     const toChat = await db
-//       .collection("user")
-//       .doc(currentUser)
-//       .collection("friend")
-//       .where("email", "==", friend);
-//     const fromChat = await db
-//       .collection("user")
-//       .doc(friend)
-//       .collection("friend")
-//       .where("email", "==", currentUser);
-//     let chats: any = [];
-//     let allChats: any = [];
-//     toChat.get().then((snapShot) => {
-//       snapShot.forEach((doc) => {
-//         chats.push(doc.data().chat);
-//       });
-//     });
-//     return fromChat.get().then((snapShot) => {
-//       snapShot.forEach((doc) => {
-//         chats.push(doc.data().chat);
-//       });
-//       chats[0].forEach((data: any) => {
-//         allChats.push({ data });
-//       });
-//       chats[1].forEach((data: any) => {
-//         allChats.push({ data });
-//       });
-//       allChats.sort((a: any, b: any) =>
-//         compare(a.data.send_time, b.data.send_time, false)
-//       );
-//       return allChats;
-//     });
-//   }
-// };
-
-// export const chatGet = async (
-//   currentUser: string | undefined,
-//   friend: string | undefined
-// ) => {
-//   if (currentUser !== undefined) {
-//     const Chat = await db
-//       .collection("user")
-//       .doc(currentUser)
-//       .collection("friend")
-//       .where("email", "==", friend);
-//     let chats: any = [];
-//     return Chat.get().then((snapShot) => {
-//       snapShot.forEach((doc) => {
-//         chats.push();
-//       });
-//       chats.sort((a: any, b: any) =>
-//         compare(a.data.send_time, b.data.send_time, false)
-//       );
-//       return chats;
-//     });
-//   }
-// };
-
 export const chatGet = async (
   currentUser: string | undefined,
   friend: string | undefined
@@ -281,15 +218,17 @@ export const updateAccountInfo = async (
 };
 
 export const updateChatPageLogin = async (
-  currentUser?: string,
-  friend?: string
+  currentUser: string | undefined,
+  friend: string | undefined
 ) => {
-  const user = await db.collection("user").doc(currentUser).get();
-  db.collection("user")
-    .doc(currentUser)
-    .update({
-      friend: firebase.firestore.FieldValue.arrayUnion({
+  if (currentUser !== undefined && friend !== undefined) {
+    return db
+      .collection("user")
+      .doc(currentUser)
+      .collection("friend")
+      .doc(friend)
+      .update({
         chat_page_login: firebase.firestore.FieldValue.serverTimestamp(),
-      }),
-    });
+      });
+  }
 };

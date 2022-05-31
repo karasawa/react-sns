@@ -39,10 +39,10 @@ const Chat = memo(() => {
       chatWithFriend.chatWithFriendEmail
     );
     await setChat(chats);
-    // const user = await updateChatPageLogin(
-    //   currentUser.currentUserEmail,
-    //   chatWithFriend.chatWithFriendEmail
-    // );
+    const user = await updateChatPageLogin(
+      currentUser.currentUserEmail,
+      chatWithFriend.chatWithFriendEmail
+    );
   };
   return (
     <Box sx={{ display: "flex" }}>
