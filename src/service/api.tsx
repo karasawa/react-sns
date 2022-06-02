@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 
 export const createUserInfo = async (email: string, username: string) => {
   db.collection("user")
@@ -47,19 +47,44 @@ export const initGet = async (currentUser: string | undefined) => {
   });
 };
 
+// export const chatGet = async (
+//   currentUser: string | undefined,
+//   friend: string | undefined
+// ) => {
+//   if (currentUser === undefined) {
+//     return [];
+//   }
+//   const friendDoc = await db
+//     .collection("user")
+//     .doc(friend)
+//     .collection("friend");
+//   return friendDoc.get().then((snapShot) => {
+//     let chats: any = [];
+//     snapShot.forEach((doc) => {
+//       if (doc.data().email === currentUser) {
+//         chats.push(doc.data());
+//       }
+//     });
+//     chats.sort((a: any, b: any) =>
+//       compare(a.data.send_time, b.data.send_time, false)
+//     );
+//     return chats;
+//   });
+// };
+
 export const chatGet = async (
   currentUser: string | undefined,
   friend: string | undefined
 ) => {
   if (currentUser !== undefined) {
-    const toChat = await db
+    const chat = await db
       .collection("user")
-      .doc(currentUser)
+      .doc(friend)
       .collection("friend")
-      .where("email", "==", friend);
+      .where("email", "==", currentUser);
     let chats: any = [];
     let allChats: any = [];
-    return toChat.get().then((snapShot) => {
+    return chat.get().then((snapShot) => {
       snapShot.forEach((doc) => {
         chats.push(doc.data().chat);
       });
@@ -216,6 +241,8 @@ export const updateAccountInfo = async (
       });
   }
 };
+
+export const uploadData = () => {};
 
 export const updateChatPageLogin = async (
   currentUser: string | undefined,

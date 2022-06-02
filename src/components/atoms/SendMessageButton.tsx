@@ -7,7 +7,7 @@ interface Props {
 
 const SendMessageButton: React.VFC<Props> = memo(({ sendHandle }) => {
   return (
-    <Button sx={{ color: "#fff" }} onClick={sendHandle}>
+    <Button sx={{ m: 1, color: "#fff" }} onClick={sendHandle}>
       送信
     </Button>
   );
