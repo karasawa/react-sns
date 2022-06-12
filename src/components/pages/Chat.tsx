@@ -6,7 +6,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { currentUserState, chatWithFriendState } from "../../recoil/atom";
-import { chatGet, updateChatPageLogin } from "../../service/api";
+import {
+  chatGet,
+  updateChatPageLogin,
+  // updateReadFlag,
+} from "../../service/api";
 import ChatList from "../organisms/ChatList";
 import LeftHomeDrawer from "../organisms/LeftHomeDrawer";
 import RightHomeDrawer from "../organisms/RightHomeDrawer";
@@ -34,6 +38,10 @@ const Chat = memo(() => {
   }, []);
 
   const chatFetch = async () => {
+    // const data = await updateReadFlag(
+    //   currentUser.currentUserEmail,
+    //   chatWithFriend.chatWithFriendEmail
+    // );
     const chats = await chatGet(
       currentUser.currentUserEmail,
       chatWithFriend.chatWithFriendEmail

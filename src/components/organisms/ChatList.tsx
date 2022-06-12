@@ -53,25 +53,27 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                   }}
                 >
                   <ListItem sx={{ padding: 0.8 }}>
-                    {/* <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "end",
-                        height: 40,
-                      }}
-                    > */}
-                    <Typography
-                      variant="subtitle2"
-                      sx={{
-                        textAlign: "right",
-                        color: "#EEEEEE",
-                      }}
-                    >
-                      {chatData.data.send_time.toDate().getHours()}:
-                      {chatData.data.send_time.toDate().getMinutes()}
-                    </Typography>
-                    {/* </Box> */}
+                    <Box>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{
+                          textAlign: "right",
+                          color: "#EEEEEE",
+                        }}
+                      >
+                        {chatData.data.send_time.toDate().getHours()}:
+                        {chatData.data.send_time.toDate().getMinutes()}
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{
+                          textAlign: "center",
+                          color: "#EEEEEE",
+                        }}
+                      >
+                        {chatData.data.read_flag ? "既読" : "未読"}
+                      </Typography>
+                    </Box>
                     <ListItemText sx={{ textAlign: "right" }}>
                       {chatData.data.message}
                     </ListItemText>
@@ -126,7 +128,7 @@ const ChatList: React.VFC<Props> = memo(({ chat }) => {
                         {chatWithFriend.chatWithFriendName}
                       </Typography>
                     </ListItemIcon>
-                    <ListItemText>{chatData.data.message}</ListItemText>
+                    <ListItemText>{chatData.data.message} </ListItemText>
                     <Typography
                       variant="subtitle2"
                       sx={{ color: "#999999", textAlign: "left" }}

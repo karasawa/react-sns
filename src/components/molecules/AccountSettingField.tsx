@@ -49,7 +49,15 @@ const AccountSettingField: React.VFC<Props> = memo(
           userImg.current.setAttribute("src", downloadURL);
         })
         .catch((err) => {
-          console.log(err);
+          storage
+            .ref()
+            .child(`images/defaultIcon.jpg`)
+            .getDownloadURL()
+            .then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              setImageUrl(downloadURL);
+              userImg.current.setAttribute("src", downloadURL);
+            });
         });
     }, []);
 

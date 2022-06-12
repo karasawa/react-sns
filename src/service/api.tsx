@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import { db, storage } from "./firebase";
+import { db } from "./firebase";
 
 export const createUserInfo = async (email: string, username: string) => {
   db.collection("user")
@@ -79,9 +79,9 @@ export const chatGet = async (
   if (currentUser !== undefined) {
     const chat = await db
       .collection("user")
-      .doc(friend)
+      .doc(currentUser)
       .collection("friend")
-      .where("email", "==", currentUser);
+      .where("email", "==", friend);
     let chats: any = [];
     let allChats: any = [];
     return chat.get().then((snapShot) => {
@@ -115,6 +115,26 @@ export const compare = (a: any, b: any, desc = true) => {
   var sig = desc ? 1 : -1;
   return a < b ? sig : a > b ? -sig : 0;
 };
+
+// export const updateReadFlag = async (
+//   currentUser: string | undefined,
+//   friend: string | undefined
+// ) => {
+//   if (currentUser !== undefined) {
+//     const chat = await db
+//       .collection("user")
+//       .doc(friend)
+//       .collection("friend")
+//       .doc(currentUser)
+//       .update({
+//         chat: {
+//           0: {
+//             "read_flag": true,
+//           },
+//         },
+//       });
+//   }
+// };
 
 export const friendSearch = async (searchResult: string | undefined) => {
   if (searchResult !== undefined) {

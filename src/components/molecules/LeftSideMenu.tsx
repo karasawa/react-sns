@@ -1,8 +1,6 @@
-import { memo } from "react";
+import { memo, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import { deepPurple } from "@mui/material/colors";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -15,10 +13,34 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Divider from "@mui/material/Divider";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../recoil/atom";
+import { storage } from "../../service/firebase";
 
 const LeftSideMenu = memo(() => {
   const currentUser = useRecoilValue(currentUserState);
   const navigate = useNavigate();
+
+  const currentUserImg: any = useRef();
+
+  useEffect(() => {
+    storage
+      .ref()
+      .child(`images/${currentUser.currentUserEmail}.jpeg`)
+      .getDownloadURL()
+      .then((downloadURL) => {
+        console.log("File available at", downloadURL);
+        currentUserImg.current.setAttribute("src", downloadURL);
+      })
+      .catch((err) => {
+        storage
+          .ref()
+          .child(`images/defaultIcon.jpg`)
+          .getDownloadURL()
+          .then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            currentUserImg.current.setAttribute("src", downloadURL);
+          });
+      });
+  }, []);
 
   const sideMenuContents = [
     {
@@ -56,15 +78,12 @@ const LeftSideMenu = memo(() => {
           }}
         >
           <ListItemIcon sx={{ display: "flex", justifyContent: "center" }}>
-            <Avatar
-              sx={{
-                bgcolor: deepPurple[500],
-                width: 30,
-                height: 30,
-              }}
-            >
-              K
-            </Avatar>
+            <img
+              height="60"
+              width="60"
+              style={{ borderRadius: 100 }}
+              ref={currentUserImg}
+            />
           </ListItemIcon>
           <ListItemText primary={currentUser.currentUserName} />
         </ListItem>
