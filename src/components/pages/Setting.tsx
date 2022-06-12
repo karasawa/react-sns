@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState, useRef } from "react";
 import Header from "../organisms/Header";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,6 +11,7 @@ import RightHomeDrawer from "../organisms/RightHomeDrawer";
 import Footer from "../organisms/Footer";
 import { updateAccountInfo } from "../../service/api";
 import AccountSettingField from "../molecules/AccountSettingField";
+import { storage } from "../../service/firebase";
 
 interface State {
   vertical: "top" | "bottom";
@@ -21,6 +22,10 @@ interface State {
 const Setting = memo(() => {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
   const [name, setName] = useState(currentUser.currentUserName);
+  const [profileImage, setProfileImage] = useState<any>("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  const userImg: any = useRef();
 
   const [state, setState] = useState<State>({
     vertical: "top",
@@ -44,7 +49,34 @@ const Setting = memo(() => {
       setCurrentUser({ ...currentUser, currentUserName: newData });
     }
     await console.log(newData);
-    setState({ ...state, snackBarOpen: true });
+    await setState({ ...state, snackBarOpen: true });
+    uploadImage();
+  };
+
+  const uploadImage = () => {
+    if (profileImage === "") {
+      console.log("no profileImage");
+      return;
+    }
+    const storageRef = storage.ref("images/");
+    const imagesRef = storageRef.child(`${currentUser.currentUserEmail}.jpeg`);
+
+    const upLoadTask = imagesRef.put(profileImage);
+    upLoadTask.on(
+      "state_changed",
+      (snapshot) => {
+        console.log("snapshot", snapshot);
+      },
+      (error) => {
+        console.log("err", error);
+      },
+      () => {
+        upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setImageUrl(downloadURL);
+        });
+      }
+    );
   };
 
   return (
@@ -67,6 +99,9 @@ const Setting = memo(() => {
           updateHandle={updateHandle}
           state={state}
           setState={setState}
+          setImageUrl={setImageUrl}
+          setProfileImage={setProfileImage}
+          userImg={userImg}
         />
       </Box>
       <Footer />

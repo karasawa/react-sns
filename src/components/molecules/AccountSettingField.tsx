@@ -1,14 +1,11 @@
-import { memo, useState, useRef } from "react";
+import { memo, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../recoil/atom";
-import Typography from "@mui/material/Typography";
 import AccountSettingButton from "../atoms/AccountSettingButton";
 import SnackBar from "../atoms/SnackBar";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import Button from "@mui/material/Button";
-import { IconButton } from "@mui/material";
+import ImageSettingField from "./ImageSettingField";
 import { storage } from "../../service/firebase";
 
 interface Props {
@@ -17,6 +14,9 @@ interface Props {
   updateHandle: () => void;
   state: State;
   setState: React.Dispatch<React.SetStateAction<State>>;
+  setImageUrl: React.Dispatch<React.SetStateAction<any>>;
+  setProfileImage: React.Dispatch<React.SetStateAction<any>>;
+  userImg: any;
 }
 
 interface State {
@@ -26,16 +26,34 @@ interface State {
 }
 
 const AccountSettingField: React.VFC<Props> = memo(
-  ({ name, setName, updateHandle, state, setState }) => {
+  ({
+    name,
+    setName,
+    updateHandle,
+    state,
+    setState,
+    setImageUrl,
+    setProfileImage,
+    userImg,
+  }) => {
     const currentUser = useRecoilValue(currentUserState);
-    const [profileImage, setProfileImage] = useState<any>("");
-    const [imageUrl, setImageUrl] = useState("");
-    const [error, setError] = useState("");
-    const [progress, setProgress] = useState(100);
 
-    const userImg: any = useRef();
+    useEffect(() => {
+      storage
+        .ref()
+        .child(`images/${currentUser.currentUserEmail}.jpeg`)
+        .getDownloadURL()
+        .then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setImageUrl(downloadURL);
+          userImg.current.setAttribute("src", downloadURL);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, []);
 
-    const onChange = (e: any) => {
+    const imageChange = (e: any) => {
       const image = e.target.files[0];
       console.log(image);
       setProfileImage(image);
@@ -45,41 +63,6 @@ const AccountSettingField: React.VFC<Props> = memo(
         userImg.current.setAttribute("src", event.target.result);
       };
       reader.readAsDataURL(image);
-    };
-
-    const uploadImage = () => {
-      if (profileImage === "") {
-        console.log("no profileImage");
-        return;
-      }
-      const storageRef = storage.ref("images/test/"); //どのフォルダの配下に入れるかを設定
-      const imagesRef = storageRef.child(profileImage.name); //ファイル名
-
-      console.log("ファイルをアップする行為");
-      const upLoadTask = imagesRef.put(profileImage);
-      console.log("タスク実行前");
-
-      upLoadTask.on(
-        "state_changed",
-        (snapshot) => {
-          console.log("snapshot", snapshot);
-          const percent =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(percent + "% done");
-          setProgress(percent);
-        },
-        (error) => {
-          console.log("err", error);
-          setError("ファイルアップに失敗しました。" + error);
-          setProgress(100); //実行中のバーを消す
-        },
-        () => {
-          upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            setImageUrl(downloadURL);
-          });
-        }
-      );
     };
 
     return (
@@ -100,34 +83,7 @@ const AccountSettingField: React.VFC<Props> = memo(
             height: 400,
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img
-              height="110"
-              width="110"
-              style={{ borderRadius: 100 }}
-              ref={userImg}
-            />
-            <IconButton
-              component="label"
-              sx={{
-                position: "absolute",
-                marginTop: 9,
-                marginLeft: 9,
-                background: "#fff",
-                opacity: 0.5,
-              }}
-            >
-              <CameraAltIcon />
-              <input type="file" accept="image/*" hidden onChange={onChange} />
-            </IconButton>
-          </Box>
+          <ImageSettingField imageChange={imageChange} userImg={userImg} />
           <TextField
             label="email"
             disabled
@@ -156,7 +112,6 @@ const AccountSettingField: React.VFC<Props> = memo(
             message="アカウント情報を更新しました"
           />
         </Box>
-        <Button onClick={uploadImage}>upload</Button>
       </Box>
     );
   }
