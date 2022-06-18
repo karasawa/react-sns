@@ -48,7 +48,7 @@ const AccountSettingField: React.VFC<Props> = memo(
           setImageUrl(downloadURL);
           userImg.current.setAttribute("src", downloadURL);
         })
-        .catch((err) => {
+        .catch(() => {
           storage
             .ref()
             .child(`images/defaultIcon.jpg`)

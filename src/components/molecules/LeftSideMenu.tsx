@@ -19,7 +19,7 @@ const LeftSideMenu = memo(() => {
   const currentUser = useRecoilValue(currentUserState);
   const navigate = useNavigate();
 
-  const currentUserImg: any = useRef();
+  const currentUserImg: React.MutableRefObject<any> = useRef();
 
   useEffect(() => {
     storage
@@ -30,7 +30,7 @@ const LeftSideMenu = memo(() => {
         console.log("File available at", downloadURL);
         currentUserImg.current.setAttribute("src", downloadURL);
       })
-      .catch((err) => {
+      .catch(() => {
         storage
           .ref()
           .child(`images/defaultIcon.jpg`)

@@ -31,20 +31,21 @@ export const getCurrentUserName = async (email: string) => {
 };
 
 export const initGet = async (currentUser: string | undefined) => {
-  if (currentUser === undefined) {
-    return [];
-  }
-  const friendDoc = await db
-    .collection("user")
-    .doc(currentUser)
-    .collection("friend");
-  return friendDoc.get().then((snapShot) => {
-    let friends: any = [];
-    snapShot.forEach((doc) => {
-      friends.push(doc.data());
+  if (typeof currentUser === undefined) {
+    return;
+  } else {
+    const friendDoc = await db
+      .collection("user")
+      .doc(currentUser)
+      .collection("friend");
+    return friendDoc.get().then((snapShot) => {
+      let friends: any = [];
+      snapShot.forEach((doc) => {
+        friends.push(doc.data());
+      });
+      return friends;
     });
-    return friends;
-  });
+  }
 };
 
 // export const chatGet = async (
@@ -76,7 +77,9 @@ export const chatGet = async (
   currentUser: string | undefined,
   friend: string | undefined
 ) => {
-  if (currentUser !== undefined) {
+  if (typeof friend === undefined) {
+    return;
+  } else {
     const chat = await db
       .collection("user")
       .doc(currentUser)
@@ -137,7 +140,9 @@ export const compare = (a: any, b: any, desc = true) => {
 // };
 
 export const friendSearch = async (searchResult: string | undefined) => {
-  if (searchResult !== undefined) {
+  if (typeof searchResult === undefined) {
+    return;
+  } else {
     const friend = await db
       .collection("user")
       .where("email", "==", searchResult);
@@ -159,7 +164,12 @@ export const addFriend = async (
   friendEmail: string | undefined,
   friendName: string | undefined
 ) => {
-  if (currentUserEmail !== undefined && friendEmail !== undefined) {
+  if (
+    typeof currentUserEmail === undefined &&
+    typeof friendEmail === undefined
+  ) {
+    return;
+  } else {
     await db
       .collection("user")
       .doc(currentUserEmail)
@@ -192,7 +202,7 @@ export const sendMessage = (
   friend: string | undefined,
   message: string | undefined
 ) => {
-  if (message !== undefined && message !== "") {
+  if (typeof message !== undefined && message !== "") {
     db.collection("user")
       .doc(currentUser)
       .collection("friend")
@@ -222,7 +232,9 @@ export const deleteFriend = async (
   currentUser: string | undefined,
   friend: string | undefined
 ) => {
-  if (currentUser !== undefined && friend !== undefined) {
+  if (typeof friend === undefined) {
+    return;
+  } else {
     await db
       .collection("user")
       .doc(currentUser)
@@ -238,7 +250,12 @@ export const updateAccountInfo = async (
   currentUserEmail: string | undefined,
   currentUserName: string | undefined
 ) => {
-  if (currentUserEmail !== undefined && currentUserName !== undefined) {
+  if (
+    typeof currentUserEmail === undefined &&
+    typeof currentUserName === undefined
+  ) {
+    return;
+  } else {
     db.collection("user")
       .doc(currentUserEmail)
       .collection("friend")
@@ -262,13 +279,13 @@ export const updateAccountInfo = async (
   }
 };
 
-export const uploadData = () => {};
-
 export const updateChatPageLogin = async (
   currentUser: string | undefined,
   friend: string | undefined
 ) => {
-  if (currentUser !== undefined && friend !== undefined) {
+  if (typeof currentUser === undefined && typeof friend === undefined) {
+    return;
+  } else {
     return db
       .collection("user")
       .doc(currentUser)

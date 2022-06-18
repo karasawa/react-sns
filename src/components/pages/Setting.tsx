@@ -25,7 +25,7 @@ const Setting = memo(() => {
   const [profileImage, setProfileImage] = useState<any>("");
   const [imageUrl, setImageUrl] = useState("");
 
-  const userImg: any = useRef();
+  const userImg: React.MutableRefObject<any> = useRef();
 
   const [state, setState] = useState<State>({
     vertical: "top",
